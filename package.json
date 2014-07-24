@@ -1,0 +1,12 @@
+{
+  "name": "cg-ui",
+  "version": "0.1.0-BETA",      
+  "author": "Christophe Geers",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "karma": "^0.12.17",
+    "karma-chrome-launcher": "^0.1.4",
+    "karma-jasmine": "^0.1.5"
+  }
+}
