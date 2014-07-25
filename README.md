@@ -6,6 +6,7 @@ AngularJS input directives
 Installation
 ============
 
+* install node
 * clone the repository
 * npm install
 * grunt build
