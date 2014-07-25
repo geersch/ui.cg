@@ -127,7 +127,7 @@ module.exports = function (grunt) {
 		grunt.task.run(['build', 'ngdocs', 'open:docs', 'connect']);
 	});
 	
-	grunt.registerTask('default', ['build', 'open:docs', 'connect']);
+	grunt.registerTask('default', ['show-docs']);
 
 	return grunt;
 }
