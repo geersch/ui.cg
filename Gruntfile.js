@@ -1,6 +1,7 @@
 module.exports = function (grunt) {
 
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 
 	grunt.initConfig({
 		modules: [], // filled in by the build task
@@ -11,6 +12,12 @@ module.exports = function (grunt) {
 			dist: {
 				src: [], // filled in by the build task
 				dest: '<%= dist %>/<%= filename %>-<%= pkg.version %>.js'
+			}
+		},
+		uglify: {
+			dist: {
+				src: ['<%= concat.dist.dest %>'],
+				dest: '<%= dist %>/<%= filename %>-<%= pkg.version %>.min.js'
 			}
 		}
 	});
@@ -67,7 +74,7 @@ module.exports = function (grunt) {
 			'concat.dist.src', 
 			grunt.config('concat.dist.src').concat(srcFiles));
 		
-		grunt.task.run(['concat']);		
+		grunt.task.run(['concat', 'uglify']);		
 	});
 
 	return grunt;
