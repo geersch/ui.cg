@@ -2,6 +2,9 @@ module.exports = function (grunt) {
 
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-connect');
+	grunt.loadNpmTasks('grunt-ngdocs');	
 
 	grunt.initConfig({
 		modules: [], // filled in by the build task
@@ -34,7 +37,22 @@ module.exports = function (grunt) {
 				src: ['<%= concat.dist.dest %>'],
 				dest: '<%= dist %>/<%= filename %>-<%= pkg.version %>.min.js'
 			}
-		}
+		},
+		clean: ['<%= dist %>'],
+		ngdocs: {
+			options: {
+				scripts: ['angular.js', '<%= concat.dist.dest %>'],
+				html5Mode: false,
+				title: 'ui.cg',
+			},
+			all: ['<%= concat.dist.dest %>']
+		},
+		connect: {
+			options: {
+				keepalive: true
+			},
+			server: {}
+		}	
 	});
 
 	var foundModules = {};
@@ -68,7 +86,7 @@ module.exports = function (grunt) {
 
 		grunt.config('modules', grunt.config('modules').concat(module));
 	}
-
+	
 	grunt.registerTask('build', 'Build the distributable', function () {
 		var _ = grunt.util._;
 		
@@ -91,6 +109,8 @@ module.exports = function (grunt) {
 		
 		grunt.task.run(['concat', 'uglify']);		
 	});
+	
+	grunt.registerTask('default', ['clean', 'build', 'ngdocs', 'connect']);
 
 	return grunt;
 }
