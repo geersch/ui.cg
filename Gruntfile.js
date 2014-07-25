@@ -41,6 +41,7 @@ module.exports = function (grunt) {
 		clean: ['<%= dist %>'],
 		ngdocs: {
 			options: {
+				dest: 'dist/docs',
 				scripts: ['angular.js', '<%= concat.dist.dest %>'],
 				html5Mode: false,
 				title: 'ui.cg',
@@ -49,6 +50,8 @@ module.exports = function (grunt) {
 		},
 		connect: {
 			options: {
+				hostname: 'localhost',
+				base: '<%= ngdocs.options.dest %>',
 				keepalive: true
 			},
 			server: {}
