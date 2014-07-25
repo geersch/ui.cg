@@ -5,6 +5,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-ngdocs');	
+	grunt.loadNpmTasks('grunt-open');
 
 	grunt.initConfig({
 		modules: [], // filled in by the build task
@@ -38,7 +39,10 @@ module.exports = function (grunt) {
 				dest: '<%= dist %>/<%= filename %>-<%= pkg.version %>.min.js'
 			}
 		},
-		clean: ['<%= dist %>'],
+		clean: {
+			all: ['<%= dist %>'],
+			docs: ['<%= ngdocs.options.dest %>']
+		},
 		ngdocs: {
 			options: {
 				dest: 'dist/docs',
@@ -55,7 +59,13 @@ module.exports = function (grunt) {
 				keepalive: true
 			},
 			server: {}
-		}	
+		},
+		open: {
+			docs: {
+				path: 'http://localhost:8000',
+				app: 'Chrome'
+			}
+		}
 	});
 
 	var foundModules = {};
@@ -110,10 +120,14 @@ module.exports = function (grunt) {
 			'concat.dist.src', 
 			grunt.config('concat.dist.src').concat(srcFiles));
 		
-		grunt.task.run(['concat', 'uglify']);		
+		grunt.task.run(['clean', 'concat', 'uglify', 'ngdocs']);		
 	});
 	
-	grunt.registerTask('default', ['clean', 'build', 'ngdocs', 'connect']);
+	grunt.registerTask('show-docs', 'Open the API docs', function () {
+		grunt.task.run(['clean:docs', 'ngdocs', 'open:docs', 'connect']);
+	});
+	
+	grunt.registerTask('default', ['build', 'open:docs', 'connect']);
 
 	return grunt;
 }
