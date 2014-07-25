@@ -120,11 +120,11 @@ module.exports = function (grunt) {
 			'concat.dist.src', 
 			grunt.config('concat.dist.src').concat(srcFiles));
 		
-		grunt.task.run(['clean', 'concat', 'uglify', 'ngdocs']);		
+		grunt.task.run(['clean', 'concat', 'uglify']);		
 	});
 	
 	grunt.registerTask('show-docs', 'Open the API docs', function () {
-		grunt.task.run(['clean:docs', 'ngdocs', 'open:docs', 'connect']);
+		grunt.task.run(['build', 'ngdocs', 'open:docs', 'connect']);
 	});
 	
 	grunt.registerTask('default', ['build', 'open:docs', 'connect']);

@@ -1,3 +1,30 @@
+/**
+ * @ngdoc directive
+ * @name cg.ui.directive:numberinput
+ * @element numberinput
+ * @restrict E
+ * @function
+ *
+ * @description
+ * Input for floating point numbers which accept a comma (,) as a decimal separator.
+ *
+ * @example
+   <example module="app">
+     <file name="index.html">
+		 <div ng-controller="NumberInputCtrl">
+			<numberinput ng-model="value" />
+			<pre><strong>Model value</strong>: {{value}} </pre>
+		 </div>
+     </file>
+	 <file name="app.js">
+		var app = angular.module('app', ['ui.cg']);
+		
+		app.controller('NumberInputCtrl', ['$scope', function ($scope) {
+			$scope.value = 34.75;
+		}]);		
+	 </file>
+   </example>
+ */
 angular.module('ui.cg.numberinput', [])
 
 .directive('numberinput', function () {

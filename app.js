@@ -1,4 +1,4 @@
-var demo = angular.module('demo', ['ui.cg.numberinput']);
+var demo = angular.module('demo', ['ui.cg']);
 
 demo.controller('DemoCtrl', ['$scope', function($scope) {
   
