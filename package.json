@@ -1,6 +1,7 @@
 {
   "name": "cg-ui",
   "version": "0.1.0-BETA",
+  "homepage": "https://github.com/geersch/ui.cg",
   "author": "Christophe Geers",
   "license": "MIT",
   "dependencies": {},

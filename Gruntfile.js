@@ -8,13 +8,28 @@ module.exports = function (grunt) {
 		dist: 'dist',
 		filename: 'ui-cg',
 		pkg: grunt.file.readJSON('package.json'),
+		meta: {
+			modules: 'angular.module("ui.cg", [<%= srcModules %>]);',
+			banner: ['/*',
+					 ' * <%= pkg.name %>',
+					 ' * <%= pkg.homepage %>',
+					 ' * Version: <%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>',
+					 ' * License: <%= pkg.license %>',
+					 ' */\n'].join('\n')
+		},
 		concat: {
+			options: {
+				banner: '<%= meta.banner %><%= meta.modules %>\n'
+			},
 			dist: {
 				src: [], // filled in by the build task
 				dest: '<%= dist %>/<%= filename %>-<%= pkg.version %>.js'
 			}
 		},
 		uglify: {
+			options: {
+				banner: '<%= meta.banner %>'
+			},
 			dist: {
 				src: ['<%= concat.dist.dest %>'],
 				dest: '<%= dist %>/<%= filename %>-<%= pkg.version %>.min.js'
