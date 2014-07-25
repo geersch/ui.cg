@@ -1,6 +1,6 @@
-"use strict"
+angular.module('ui.cg.numberinput', [])
 
-var directiveFn = function () {    
+.directive('numberinput', function () {
 
 	return {
 		 restrict: 'E',		
@@ -80,6 +80,4 @@ var directiveFn = function () {
 			});
 		}				
 	};
-}
-
-angular.module('ui.cg.numberinput', []).directive('numberinput', [directiveFn]); 
+});
