@@ -6,6 +6,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-ngdocs');	
 	grunt.loadNpmTasks('grunt-open');
+    grunt.loadNpmTasks('grunt-gh-pages');
 
 	grunt.initConfig({
 		modules: [], // filled in by the build task
@@ -65,7 +66,13 @@ module.exports = function (grunt) {
 				path: 'http://localhost:8000',
 				app: 'Chrome'
 			}
-		}
+		},
+        'gh-pages': {
+            options: {
+                base: '<%= ngdocs.options.dest %>'
+            },
+            src: ['**']
+        }
 	});
 
 	var foundModules = {};
@@ -128,6 +135,8 @@ module.exports = function (grunt) {
 	});
 	
 	grunt.registerTask('default', ['show-docs']);
+
+    grunt.registerTask('publish-docs', ['build', 'ngdocs', 'gh-pages']);
 
 	return grunt;
 }
