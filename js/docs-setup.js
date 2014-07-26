@@ -5,6 +5,15 @@ NG_DOCS={
   "pages": [
     {
       "section": "api",
+      "id": "index",
+      "shortName": "Overview",
+      "type": "overview",
+      "moduleName": "Overview",
+      "shortDescription": "Input controls for your Angular apps, made easy",
+      "keywords": "add adipiscing aliquet amet angular angularjs api apps blandit bring build built cg clone configurable consectetur controls decimal decimals dependencies dictum dist dolor easiest easy easy-to-use elit enim erat eros faucibus fermentum feugiat find floating folder fringilla geers git grunt imperdiet input install ipsum javascript justo lorem module mymodule nec nisl nmp node npm nulla number numberinput org overview point porttitor quick quis quisque redistributables repository rutrum separator sit start tempus turpis ui ultrices uncompressed ut vel vestibulum vivamus"
+    },
+    {
+      "section": "api",
       "id": "cg.ui.directive:numberinput",
       "shortName": "numberinput",
       "type": "directive",
