@@ -15,6 +15,10 @@ angular.module("ui.cg", ["ui.cg.numberinput"]);
  * @description
  * Input for a floating point number with a configurable decimal separator (default: .) and decimals (default: 2).
  *
+ * @param {string} ngModel Assignable angular expression to data-bind to.
+ * @param {string=} decimal-separator The decimal separator to display (default: .).
+ * @param {number=} decimals The maximum number of allowed decimals (default: 2).
+ *
  * @example
  <example module="app">
  <file name="index.html">

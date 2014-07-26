@@ -19,7 +19,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "cg.ui",
       "shortDescription": "Input for a floating point number with a configurable decimal separator (default: .) and decimals (default: 2).",
-      "keywords": "$scope angular api app cg configurable controller decimal decimal-separator decimals directive floating function html input js module ng-controller ng-model number numberinput numberinputctrl point separator ui var"
+      "keywords": "$scope allowed angular api app assignable cg configurable controller data-bind decimal decimal-separator decimals directive display expression floating function html input js maximum module ng-controller ng-model ngmodel number numberinput numberinputctrl point separator ui var"
     }
   ],
   "apis": {
