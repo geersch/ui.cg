@@ -47,12 +47,19 @@ module.exports = function (grunt) {
 		ngdocs: {
 			options: {
 				dest: 'dist/docs',
-				scripts: ['angular.js', '<%= concat.dist.dest %>'],
-				html5Mode: false,
-				title: 'ui.cg'
+				scripts: [
+                    'angular.js',
+                    '<%= concat.dist.dest %>'
+                ],
+                styles: [
+                    'docs/css/style.css'
+                ],
+                navTemplate: 'docs/nav.html',
+                title: 'ui.cg',
+				html5Mode: false
 			},
             api: {
-                src: ['<%= concat.dist.dest %>'],
+                src: ['<%= concat.dist.dest %>', 'docs/index.ngdoc'],
                 title: 'API Documentation'
             }
 		},

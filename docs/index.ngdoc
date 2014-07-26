@@ -1,0 +1,49 @@
+@ngdoc overview
+@name Overview
+@description
+
+# Input controls for your Angular apps, made easy
+
+####The easiest way to bring easy-to-use input controls to your Angular apps!
+
+<br>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla nec dolor sit amet vestibulum.
+Nulla dictum aliquet turpis, quis porttitor erat tempus id. Vestibulum rutrum dolor nec eros blandit imperdiet quis ut
+nisl. Vivamus imperdiet imperdiet fermentum. Quisque vel faucibus enim, ultrices feugiat justo.
+
+## Controls
+
+- numberinput:  Input for a floating point number with a configurable decimal separator and decimals
+
+## Quick Start
+Clone the repository:
+
+```
+$ git clone git://github.com/geersch/ui.cg.git
+```
+
+Install node (http://nodejs.org/).
+
+Run nmp install to install the dependencies:
+
+```
+$ npm install
+```
+
+Build it:
+
+```
+$ grunt build
+```
+
+When it has been built, you can find the redistributables (minified & uncompressed) in the dist/ folder.
+
+You only need to add the module to your AngularJS module:
+
+```javascript
+angular.module('myModule', ['ui.cg']);
+```
+
+<br>
+<hr>
+<center>Made by [Christophe Geers](https://github.com/geersch)</center>
