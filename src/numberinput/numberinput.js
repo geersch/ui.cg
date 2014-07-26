@@ -12,7 +12,7 @@
    <example module="app">
      <file name="index.html">
 		 <div ng-controller="NumberInputCtrl">
-		     <numberinput ng-model="value" />
+		     <numberinput ng-model="value" decimals="2" />
 		     <pre><strong>Model value</strong>: {{value}} </pre>
 		 </div>
      </file>
@@ -35,8 +35,14 @@ angular.module('ui.cg.numberinput', [])
 		 template: '<input type="text" />',						 
 		 replace: true,		
 		 link: function (scope, element, attrs, ctrl) {
-			var decimals = 2;			
-		 
+			var decimals = 2;
+            if (angular.isDefined(attrs.decimals)) {
+                var value = parseInt(attrs.decimals, 10);
+                if (!isNaN(value)) {
+                    decimals = value;
+                }
+            }
+
 			function sanitizeFloat(input) {									
 				function clean(input) {
 					return input.replace(/[^0-9]/g, '');
@@ -47,7 +53,7 @@ angular.module('ui.cg.numberinput', [])
 				var position = sanitized.indexOf(',');
 				
 				if (position === 0) {
-					sanitized = '0,';				
+					sanitized = '';
 				} else if (position !== -1) {
 					var part1 = sanitized.substr(0, position);
 					var part2 = sanitized.substr(position + 1);
