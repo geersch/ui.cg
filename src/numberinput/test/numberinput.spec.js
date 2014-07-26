@@ -6,6 +6,11 @@ describe('numberinput', function () {
 
 	beforeEach(module('ui.cg.numberinput'));
 
+    afterEach(function () {
+        $scope.$destroy();
+        element = undefined;
+    });
+
     function createInput(html) {
         inject( function ($rootScope, $compile) {
             $scope = $rootScope.$new();
@@ -37,25 +42,25 @@ describe('numberinput', function () {
         it('it should accept a dot (.) as a decimal separator', function () {
             setValue('1.25');
 
-            expect(element.val()).toEqual('1,25');
+            expect(element.val()).toEqual('1.25');
         });
 
-        it('it should accept a comma (,) as a decimal separator', function () {
+        it('it should not accept anything but a dot (.) as a decimal separator', function () {
             setValue('1,25');
 
-            expect(element.val()).toEqual('1,25');
+            expect(element.val()).toEqual('125');
         });
 
         it('it should only accept one decimal separator', function () {
             setValue('10.1.0');
 
-            expect(element.val()).toEqual('10,10');
+            expect(element.val()).toEqual('10.10');
         });
 
         it('it should only allow 2 decimals', function () {
             setValue('1.236');
 
-            expect(element.val()).toEqual('1,23');
+            expect(element.val()).toEqual('1.23');
         });
 
         it('it should be able to handle an empty value', function () {
@@ -68,7 +73,7 @@ describe('numberinput', function () {
             setValue('1.2');
             element.trigger('blur');
 
-            expect(element.val()).toEqual('1,20');
+            expect(element.val()).toEqual('1.20');
         });
 
         it('it should not allow a decimal separator to be entered as the first character', function () {
@@ -78,38 +83,72 @@ describe('numberinput', function () {
         });
 
         it('model value should be a float', function () {
-            setValue('1,23');
+            setValue('1.23');
 
             expect($scope.input).toEqual(1.23);
             expect(typeof $scope.input).toEqual('number');
         });
 
         it('view value should be a string', function () {
-            setValue('4,56');
+            setValue('4.56');
 
-            expect(element.val()).toEqual('4,56');
+            expect(element.val()).toEqual('4.56');
             expect(typeof element.val()).toEqual('string');
         });
 
     });
 
-    describe('decimals setting', function () {
+    describe('decimal separator', function () {
 
-        beforeEach(function () {
-            var html = '<numberinput ng-model="input" decimals="3" />';
+        it('it should accept a custom decimal separator', function () {
+            var html = '<numberinput ng-model="input" decimal-separator="x" />';
             createInput(html);
+
+            setValue('1.25');
+
+            expect(element.val()).toEqual('1x25');
         });
 
+        it('it should only use the first character of the decimal separator', function () {
+            var html = '<numberinput ng-model="inpu" decimal-separator="abc" />';
+            createInput(html);
+
+            setValue('4.56');
+
+            expect(element.val()).toEqual('4a56');
+        })
+
+    });
+
+    describe('decimals setting', function () {
+
         it('it should only allow 3 decimals', function () {
+            var html = '<numberinput ng-model="input" decimals="3" />';
+            createInput(html);
+
             setValue('1.2345');
 
-            expect(element.val()).toEqual('1,234');
+            expect(element.val()).toEqual('1.234');
         });
 
         it('model value should have 3 decimals', function () {
+            var html = '<numberinput ng-model="input" decimals="3" />';
+            createInput(html);
+
             setValue('1.2345');
 
             expect($scope.input).toEqual(1.234);
+        });
+
+        it('it should ignore an invalid value for the decimals', function () {
+
+            var html = '<numberinput ng-model="input" decimals="foobar" />';
+            createInput(html);
+
+            setValue('1.2345');
+
+            expect($scope.input).toEqual(1.23);
+            expect(element.val()).toEqual('1.23');
         });
 
     });
