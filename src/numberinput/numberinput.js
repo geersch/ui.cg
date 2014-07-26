@@ -6,7 +6,7 @@
  * @function
  *
  * @description
- * Input for a floating point number with a configurable decimal separator (default: ,) and decimals (default: 2).
+ * Input for a floating point number with a configurable decimal separator (default: .) and decimals (default: 2).
  *
  * @example
  <example module="app">
