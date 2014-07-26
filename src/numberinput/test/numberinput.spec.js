@@ -122,6 +122,22 @@ describe('numberinput', function () {
 
     describe('decimals setting', function () {
 
+        it('it should not accept a decimal separator if the number of decimals is zero', function () {
+           var html = '<numberinput ng-model="input" decimals="0" />';
+            createInput(html);
+
+            setValue('14.25');
+            expect(element.val()).toEqual('14');
+        });
+
+        it('it should treat a negative number for the decimals attribute as zero', function () {
+            var html = '<numberinput ng-model="input" decimals="-5" />';
+            createInput(html);
+
+            setValue('14.25');
+            expect(element.val()).toEqual('14');
+        })
+
         it('it should only allow 3 decimals', function () {
             var html = '<numberinput ng-model="input" decimals="3" />';
             createInput(html);

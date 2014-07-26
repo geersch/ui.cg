@@ -35,15 +35,21 @@ angular.module('ui.cg.numberinput', [])
             replace: true,
             link: function (scope, element, attrs, ctrl) {
                 var decimalSeparator = '.';
+                var decimals = 2;
+
+                // Determine the decimal separator
                 if (angular.isDefined(attrs.decimalSeparator) && attrs.decimalSeparator.length > 0) {
                     decimalSeparator = attrs.decimalSeparator[0];
                 }
 
-                var decimals = 2;
+                // Determine the number of decimals
                 if (angular.isDefined(attrs.decimals)) {
                     var value = parseInt(attrs.decimals, 10);
                     if (!isNaN(value)) {
                         decimals = value;
+                    }
+                    if (decimals < 0) {
+                        decimals = 0;
                     }
                 }
 
@@ -67,6 +73,11 @@ angular.module('ui.cg.numberinput', [])
                         sanitized = integerPart + decimalSeparator + fractionalPart;
                     } else {
                         sanitized = clean(sanitized);
+                    }
+
+                    // Remove the trailing decimals separator if no decimals are allowed
+                    if (decimals === 0 && sanitized.indexOf(decimalSeparator) === sanitized.length - 1) {
+                        sanitized = sanitized.substr(0, sanitized.length - 1);
                     }
 
                     return sanitized;
@@ -97,6 +108,8 @@ angular.module('ui.cg.numberinput', [])
                 }
 
                 ctrl.$parsers.unshift(sanitize);
+
+                ctrl.$formatters.unshift(sanitize);
 
                 ctrl.$formatters.unshift(function (input) {
                     if (angular.isUndefined(input)) {
