@@ -49,9 +49,12 @@ module.exports = function (grunt) {
 				dest: 'dist/docs',
 				scripts: ['angular.js', '<%= concat.dist.dest %>'],
 				html5Mode: false,
-				title: 'ui.cg',
+				title: 'ui.cg'
 			},
-			all: ['<%= concat.dist.dest %>']
+            api: {
+                src: ['<%= concat.dist.dest %>'],
+                title: 'API Documentation'
+            }
 		},
 		connect: {
 			options: {
