@@ -1,10 +1,10 @@
 "use strict"
 
 describe('numberinput', function () {
-	var $scope,
-		element;
+    var $scope,
+        element;
 
-	beforeEach(module('ui.cg.numberinput'));
+    beforeEach(module('ui.cg.numberinput'));
 
     afterEach(function () {
         $scope.$destroy();
@@ -12,7 +12,7 @@ describe('numberinput', function () {
     });
 
     function createInput(html) {
-        inject( function ($rootScope, $compile) {
+        inject(function ($rootScope, $compile) {
             $scope = $rootScope.$new();
             $scope.input = 0;
             element = $compile(angular.element(html))($scope);
@@ -20,11 +20,11 @@ describe('numberinput', function () {
         });
     }
 
-	function setValue(value) {
-		element.val(value);
-		element.trigger('input');
-		$scope.$digest();
-	}
+    function setValue(value) {
+        element.val(value);
+        element.trigger('input');
+        $scope.$digest();
+    }
 
     describe('default settings', function () {
 
@@ -32,7 +32,7 @@ describe('numberinput', function () {
             var html = '<numberinput ng-model="input" />';
             createInput(html);
         });
-	
+
         it('it should only accept numbers as input', function () {
             setValue('1a2b3c4d5e');
 
@@ -123,7 +123,7 @@ describe('numberinput', function () {
     describe('decimals setting', function () {
 
         it('it should not accept a decimal separator if the number of decimals is zero', function () {
-           var html = '<numberinput ng-model="input" decimals="0" />';
+            var html = '<numberinput ng-model="input" decimals="0" />';
             createInput(html);
 
             setValue('14.25');

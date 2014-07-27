@@ -8,6 +8,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-gh-pages');
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-jsbeautifier');
 
 	grunt.initConfig({
 		modules: [], // filled in by the build task
@@ -90,6 +91,16 @@ module.exports = function (grunt) {
             },
             continuous: {
                 singleRun: true
+            }
+        },
+        jsbeautifier: {
+            files: ['src/**/*.js'],
+            options: {
+                js: {
+                    indentSize: 4,
+                    maxPreserveNewlines: 2,
+                    jslintHappy: true
+                }
             }
         }
 	});
