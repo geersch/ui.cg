@@ -24,9 +24,11 @@ module.exports = function (grunt) {
 		},
 		concat: {
 			options: {
-				banner: '<%= meta.banner %><%= meta.modules %>\n'
 			},
 			dist: {
+                options: {
+                    banner: '<%= meta.banner %><%= meta.modules %>\n'
+                },
 				src: [], // filled in by the build task
 				dest: '<%= dist %>/<%= filename %>-<%= pkg.version %>.js'
 			}
@@ -111,11 +113,21 @@ module.exports = function (grunt) {
 			name: name,
 			moduleName: enquote('ui.cg.' + name),
 			displayName: ucwords(breakup(name, '')),
-			srcFiles: grunt.file.expand('src/' + name + '/*.js')
+			srcFiles: grunt.file.expand('src/' + name + '/*.js'),
+            ngdocs: grunt.file.expand('src/' + name + '/docs/*.ngdoc')
 		};
 
 		grunt.config('modules', grunt.config('modules').concat(module));
 	}
+
+    function getFilename(path) {
+        var index = path.lastIndexOf('/');
+        var filename = index !== -1 ? path.substr(index + 1) : path;
+        index = filename.lastIndexOf('.');
+        filename = index !== -1 ? filename.substr(0, index) : filename;
+
+        return filename;
+    }
 	
 	grunt.registerTask('build', 'Build the distributable', function () {
 		var _ = grunt.util._;
@@ -131,13 +143,27 @@ module.exports = function (grunt) {
 		
 		grunt.config('srcModules', _.pluck(modules, 'moduleName'));
 
-		var srcFiles = _.pluck(modules, 'srcFiles');
+        var srcFiles = [];
+        _.each(modules, function (module) {
+            _.each(module.srcFiles, function (srcFile) {
+                var ngdoc = _.find(module.ngdocs, function (ngdoc) {
+                    return getFilename(srcFile) === getFilename(ngdoc);
+                });
+
+                if (ngdoc) {
+                    srcFiles.push(ngdoc);
+                }
+
+                srcFiles.push(srcFile);
+            });
+        });
+
 		// Set the concat task to concatenate the given src modules
 		grunt.config(
-			'concat.dist.src', 
+			'concat.dist.src',
 			grunt.config('concat.dist.src').concat(srcFiles));
-		
-		grunt.task.run(['clean', 'concat', 'uglify']);		
+
+		grunt.task.run(['clean', 'concat', 'uglify']);
 	});
 	
 	grunt.registerTask('show-docs', 'Open the API docs', function () {
