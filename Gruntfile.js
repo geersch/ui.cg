@@ -7,6 +7,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-ngdocs');	
 	grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-gh-pages');
+    grunt.loadNpmTasks('grunt-karma');
 
 	grunt.initConfig({
 		modules: [], // filled in by the build task
@@ -82,6 +83,14 @@ module.exports = function (grunt) {
                 base: '<%= ngdocs.options.dest %>'
             },
             src: ['**']
+        },
+        karma: {
+            options: {
+                configFile: 'karma.conf.js'
+            },
+            continuous: {
+                singleRun: true
+            }
         }
 	});
 
@@ -161,8 +170,10 @@ module.exports = function (grunt) {
 			'concat.dist.src',
 			grunt.config('concat.dist.src').concat(srcFiles));
 
-		grunt.task.run(['clean', 'concat', 'uglify']);
+		grunt.task.run(['test', 'clean', 'concat', 'uglify']);
 	});
+
+    grunt.registerTask('test', 'Run the tests (single-run)', ['karma']);
 	
 	grunt.registerTask('show-docs', 'Open the API docs', function () {
 		grunt.task.run(['build', 'ngdocs', 'open:docs', 'connect']);
