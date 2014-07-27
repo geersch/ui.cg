@@ -17,7 +17,8 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         meta: {
             modules: 'angular.module("ui.cg", [<%= srcModules %>]);',
-            banner: ['/*',
+            banner: [
+                '/*',
                 ' * <%= pkg.name %>',
                 ' * <%= pkg.homepage %>',
                 ' * Version: <%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>',
