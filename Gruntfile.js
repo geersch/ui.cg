@@ -23,12 +23,10 @@ module.exports = function (grunt) {
 					 ' */\n'].join('\n')
 		},
 		concat: {
-			options: {
-			},
+            options: {
+                banner: '<%= meta.banner %><%= meta.modules %>\n'
+            },
 			dist: {
-                options: {
-                    banner: '<%= meta.banner %><%= meta.modules %>\n'
-                },
 				src: [], // filled in by the build task
 				dest: '<%= dist %>/<%= filename %>-<%= pkg.version %>.js'
 			}
