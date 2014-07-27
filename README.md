@@ -1,19 +1,31 @@
-ui.cg
-=====
+# ui.cg
 
-AngularJS input directives
+Input controls for your Angular apps, made easy.
 
-Installation
-============
+## API Reference
 
-* install node
-* clone the repository
-* npm install
-* grunt build
+An API reference can be here:
 
-Distributables (ui-cg-<version>.js & ui-cg-<version>.min.js) will be created by default. 
+[http://geersch.github.io/ui.cg/#/api](http://geersch.github.io/ui.cg/#/api)
 
-After all dependencies have been downloaded and the project has been built, you only need to add the module to your AngularJS module:
+## Development
+
+#### Prepare your environment
+
+* Install [Node.js](http://nodejs.org/) and NPM
+* Install global dev dependencies: `npm install -g grunt-cli karma`
+* Install local dev dependencies: `npm install` while current directory is ui.cg repository
+
+#### Build
+
+* Build the project: `grunt build`
+
+Distributables (ui-cg-<version>.js & ui-cg-<version>.min.js) will be created by default. Once built, you only need to add the module to your AngularJS module:
+
 ```javascript
 angular.module('myModule', ['ui.cg']);
 ```
+
+Check the Grunt build file for other tasks that are defined for this project.
+
+
