@@ -2,6 +2,8 @@ angular.module('ui.cg.numberinput', [])
 
 .directive('numberinput', function () {
 
+    var HOT_KEYS = [38, 40];
+
     return {
         restrict: 'E',
         require: 'ngModel',
@@ -30,7 +32,7 @@ angular.module('ui.cg.numberinput', [])
 
             function sanitizeFloat(input) {
                 function clean(input) {
-                    return input.replace(/[^0-9]/g, '');
+                    return input.replace(/[^-0-9]/g, '');
                 }
 
                 var sanitized = String(input).replace('.', decimalSeparator);
@@ -67,6 +69,7 @@ angular.module('ui.cg.numberinput', [])
             }
 
             function sanitize(input) {
+
                 if (angular.isUndefined(input) || input.length === 0) {
                     return undefined;
                 }
@@ -92,6 +95,28 @@ angular.module('ui.cg.numberinput', [])
                 }
 
                 return String(input).replace('.', decimalSeparator);
+            });
+
+            //bind keyboard events: arrows up(38) / down(40)
+            element.bind('keydown', function (evt) {
+                if (HOT_KEYS.indexOf(evt.which) === -1) {
+                    return;
+                }
+
+                evt.stopPropagation();
+
+                var modelValue = ctrl.$modelValue;
+                if (isNaN(modelValue)) {
+                    modelValue = 0;
+                }
+
+                if (evt.which === 40) {
+                    modelValue = modelValue - 1;
+                } else if (evt.which === 38) {
+                    modelValue = modelValue + 1;
+                }
+
+                ctrl.$setViewValue(modelValue);
             });
 
             element.bind('blur', function () {

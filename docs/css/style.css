@@ -19,3 +19,38 @@
     display: inline-block;
     line-height: 1;
 }
+
+ul.keyboard-legend {
+    list-style-type: none;
+    margin: 0 auto;
+    padding: 0;
+}
+
+ul.keyboard-legend li {
+    display: block;
+    margin: 0;
+    padding: 4px 0;
+}
+
+.key-button {
+    display: inline-block;
+    text-decoration: none;
+    color: #555;
+    min-width: 20px;
+    margin: 0;
+    padding: 3px 5px;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    background: #eee;
+    box-shadow: 0 1px 0 1px rgba(0,0,0,0.1), 0 2px 0 rgba(0,0,0,0.1);
+}
+
+.button-descr {
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+    padding: 3px 0;
+}

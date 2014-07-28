@@ -18,6 +18,18 @@
     <div ng-controller="NumberInputCtrl">
         <numberinput ng-model="value" decimals="2" decimal-separator="," />
         <pre><strong>Model value</strong>: {{value}} </pre>
+
+        <h4>Keyboard legend</h4>
+        <ul class="keyboard-legend">
+            <li>
+                <span class="key-button">up arrow</span>
+                <span class="button-descr">increases the value</span>
+            </li>
+            <li>
+                <span class="key-button">down arrow</span>
+                <span class="button-descr">decreases the value</span>
+            </li>
+        </ul>
     </div>
  </file>
  <file name="app.js">
