@@ -1,10 +1,10 @@
 /*
  * cg-ui
  * https://github.com/geersch/ui.cg
- * Version: 0.1.0-BETA - 2014-07-28
+ * Version: 0.1.0-BETA - 2014-07-29
  * License: MIT
  */
-angular.module("ui.cg", ["ui.cg.numberinput"]);
+angular.module("ui.cg", ["ui.cg.numberinput","ui.cg.timepicker"]);
 /**
  * @ngdoc directive
  * @name cg.ui.directive:numberinput
@@ -180,6 +180,55 @@ angular.module('ui.cg.numberinput', [])
                     element.val(rounded);
                 }
             });
+        }
+    };
+
+});
+
+/**
+ * @ngdoc directive
+ * @name cg.ui.directive:timepicker
+ * @element timepicker
+ * @restrict E
+ * @function
+ *
+ * @description
+ * A simple timepicker.
+ *
+ * @example
+ <example module="app">
+ <file name="index.html">
+    <div ng-controller="TimepickerCtrl">
+        <timepicker ng-model="time" />
+        <pre><strong>Model value</strong>: {{time}} </pre>
+    </div>
+ </file>
+ <file name="app.js">
+    var app = angular.module('app', ['ui.cg']);
+    app.controller('TimepickerCtrl', ['$scope', function ($scope) {
+        $scope.time = new Date();
+    }]);
+ </file>
+ </example>
+ */
+angular.module('ui.cg.timepicker', [])
+
+.controller('TimepickerController', ['$scope', function ($scope) {
+
+}])
+
+.directive('timepicker', function () {
+
+    return {
+        restrict: 'E',
+        controller: 'TimepickerController',
+        require: ['timepicker', 'ngModel'],
+        template: '<div><input /><input/><button /></div>',
+        replace: true,
+        link: function (scope, element, attrs, ctrl) {
+            var timepickerCtrl = ctrl[0],
+                ngModelCtrl = ctrl[1];
+
         }
     };
 
