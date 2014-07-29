@@ -19,7 +19,16 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "cg.ui",
       "shortDescription": "Input for a floating point number with a configurable decimal separator (default: .) and decimals (default: 2).",
-      "keywords": "$scope allowed angular api app assignable cg configurable controller data-bind decimal decimal-separator decimals directive display expression floating function html input js maximum module ng-controller ng-model ngmodel number numberinput numberinputctrl point separator ui var"
+      "keywords": "$scope allowed angular api app arrow assignable button-descr cg class configurable controller data-bind decimal decimal-separator decimals directive display expression floating function html input js key-button keyboard-legend legend maximum module ng-controller ng-model ngmodel number numberinput numberinputctrl point separator ui var"
+    },
+    {
+      "section": "api",
+      "id": "cg.ui.directive:timepicker",
+      "shortName": "timepicker",
+      "type": "directive",
+      "moduleName": "cg.ui",
+      "shortDescription": "A simple timepicker.",
+      "keywords": "$scope angular api app cg controller directive function html js module ng-controller ng-model simple time timepicker timepickerctrl ui var"
     }
   ],
   "apis": {
