@@ -7,32 +7,36 @@ module.exports = function(config) {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '.',
 
-
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['jasmine'],
-
 
     // list of files / patterns to load in the browser
     files: [	  
 	  'misc/test-lib/jquery-1.11.1.min.js',
 	  'misc/test-lib/angular.js',
 	  'misc/test-lib/angular-mocks.js',
-	  'src/**/*.js'	        
+	  'src/**/*.js',
+      'template/**/*.js'
     ],
-	
 
     // list of files to exclude
     exclude: [
 		'src/**/docs/*'
     ],
 
-
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+//        'template/**/*.html': ['ng-html2js']
     },
-
+//
+//    // https://github.com/karma-runner/karma-ng-html2js-preprocessor
+//    ngHtml2JsPreprocessor: {
+//        //stripPrefix: ''
+//        //prependPrefix: '',
+//        //moduleName: 'templates'
+//    },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

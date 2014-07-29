@@ -4,6 +4,7 @@ describe('timepicker', function () {
     var $scope, element;
 
     beforeEach(module('ui.cg.timepicker'));
+    beforeEach(module('template/timepicker/timepicker.html'));
 
     function createElement(html, hours, minutes) {
         var element;

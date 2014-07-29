@@ -9,6 +9,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-gh-pages');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-jsbeautifier');
+    grunt.loadNpmTasks('grunt-html2js');
 
     grunt.initConfig({
         modules: [], // filled in by the build task
@@ -16,7 +17,8 @@ module.exports = function (grunt) {
         filename: 'ui-cg',
         pkg: grunt.file.readJSON('package.json'),
         meta: {
-            modules: 'angular.module("ui.cg", [<%= srcModules %>]);',
+            modules: 'angular.module("ui.cg", ["ui.cg.tpls", <%= srcModules %>]);',
+            tplmodules: 'angular.module("ui.cg.tpls", [<%= tplModules %>])',
             banner: [
                 '/*',
                 ' * <%= pkg.name %>',
@@ -28,7 +30,7 @@ module.exports = function (grunt) {
         },
         concat: {
             options: {
-                banner: '<%= meta.banner %><%= meta.modules %>\n'
+                banner: '<%= meta.banner %><%= meta.modules %>\n<%= meta.tplmodules %>\n'
             },
             dist: {
                 src: [], // filled in by the build task
@@ -43,6 +45,19 @@ module.exports = function (grunt) {
                 src: ['<%= concat.dist.dest %>'],
                 dest: '<%= dist %>/<%= filename %>-<%= pkg.version %>.min.js'
             }
+        },
+        html2js: {
+          dist: {
+            options: {
+                module: null, // no bundle module for all the html2js templates
+                base: '.'
+            },
+            files: [{
+                expand: true,
+                src: ['template/**/*.html'],
+                ext: '.html.js'
+            }]
+          }
         },
         clean: {
             all: ['<%= dist %>'],
@@ -135,6 +150,8 @@ module.exports = function (grunt) {
             moduleName: enquote('ui.cg.' + name),
             displayName: ucwords(breakup(name, '')),
             srcFiles: grunt.file.expand('src/' + name + '/*.js'),
+            tpljsFiles: grunt.file.expand('template/' + name + '/*.html.js'),
+            tplModules: grunt.file.expand('template/' + name + '/*.html').map(enquote),
             ngdocs: grunt.file.expand('src/' + name + '/docs/*.ngdoc')
         };
 
@@ -164,6 +181,7 @@ module.exports = function (grunt) {
         var modules = grunt.config('modules');
 
         grunt.config('srcModules', _.pluck(modules, 'moduleName'));
+        grunt.config('tplModules', _.pluck(modules, 'tplModules').filter(function (tpls) { return tpls.length > 0; } ));
 
         var srcFiles = [];
         _.each(modules, function (module) {
@@ -180,10 +198,12 @@ module.exports = function (grunt) {
             });
         });
 
+        var tpljsFiles = _.pluck(modules, 'tpljsFiles');
+
         // Set the concat task to concatenate the given src modules
         grunt.config(
             'concat.dist.src',
-            grunt.config('concat.dist.src').concat(srcFiles));
+            grunt.config('concat.dist.src').concat(srcFiles).concat(tpljsFiles));
 
         grunt.task.run(['test', 'clean', 'concat', 'uglify']);
     });
@@ -191,7 +211,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', 'Run the tests (single-run)', ['karma']);
 
     grunt.registerTask('show-docs', 'Open the API docs', function () {
-        grunt.task.run(['build', 'ngdocs', 'open:docs', 'connect']);
+        grunt.task.run(['html2js', 'build', 'ngdocs', 'open:docs', 'connect']);
     });
 
     grunt.registerTask('default', ['show-docs']);

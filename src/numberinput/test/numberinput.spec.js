@@ -5,6 +5,7 @@ describe('numberinput', function () {
         changeInputValueTo;
 
     beforeEach(module('ui.cg.numberinput'));
+    beforeEach(module('template/numberinput/numberinput.html'));
 
     beforeEach(inject (function ($sniffer) {
 

@@ -7,7 +7,7 @@ angular.module('ui.cg.numberinput', [])
     return {
         restrict: 'E',
         require: 'ngModel',
-        template: '<input type="text" />',
+        templateUrl: 'template/numberinput/numberinput.html',
         replace: true,
         link: function (scope, element, attrs, ctrl) {
             var decimalSeparator = '.';
