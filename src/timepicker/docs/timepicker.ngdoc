@@ -1,0 +1,26 @@
+/**
+ * @ngdoc directive
+ * @name cg.ui.directive:timepicker
+ * @element timepicker
+ * @restrict E
+ * @function
+ *
+ * @description
+ * A simple timepicker.
+ *
+ * @example
+ <example module="app">
+ <file name="index.html">
+    <div ng-controller="TimepickerCtrl">
+        <timepicker ng-model="time" />
+        <pre><strong>Model value</strong>: {{time}} </pre>
+    </div>
+ </file>
+ <file name="app.js">
+    var app = angular.module('app', ['ui.cg']);
+    app.controller('TimepickerCtrl', ['$scope', function ($scope) {
+        $scope.time = new Date();
+    }]);
+ </file>
+ </example>
+ */
