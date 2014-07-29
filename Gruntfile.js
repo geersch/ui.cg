@@ -208,10 +208,10 @@ module.exports = function (grunt) {
         grunt.task.run(['test', 'clean', 'concat', 'uglify']);
     });
 
-    grunt.registerTask('test', 'Run the tests (single-run)', ['karma']);
+    grunt.registerTask('test', 'Run the tests (single-run)', ['html2js', 'karma']);
 
     grunt.registerTask('show-docs', 'Open the API docs', function () {
-        grunt.task.run(['html2js', 'build', 'ngdocs', 'open:docs', 'connect']);
+        grunt.task.run(['build', 'ngdocs', 'open:docs', 'connect']);
     });
 
     grunt.registerTask('default', ['show-docs']);
