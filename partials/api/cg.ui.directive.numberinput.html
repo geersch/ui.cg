@@ -10,11 +10,13 @@
 <div class="usage">as element:<pre class="prettyprint linenums">&lt;numberinput
        ng-model="{string}"
        [decimal-separator="{string}"]
-       [decimals="{number}"]&gt;
+       [decimals="{number}"]
+       [step="{number}"]&gt;
 &lt;/numberinput&gt;</pre>
 <h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>ngModel</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="cg-ui-directive-page cg-ui-directive-numberinput-page"><p>Assignable angular expression to data-bind to.</p>
 </div></td></tr><tr><td>decimal-separator <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="cg-ui-directive-page cg-ui-directive-numberinput-page"><p>The decimal separator to display (default: .).</p>
 </div></td></tr><tr><td>decimals <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-number">number</a></td><td><div class="cg-ui-directive-page cg-ui-directive-numberinput-page"><p>The maximum number of allowed decimals (default: 2).</p>
+</div></td></tr><tr><td>step <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-number">number</a></td><td><div class="cg-ui-directive-page cg-ui-directive-numberinput-page"><p>The value to increment or decrement with (default: 1).</p>
 </div></td></tr></tbody></table></div>
 <h2 id="example">Example</h2>
 <div class="example"><div class="cg-ui-directive-page cg-ui-directive-numberinput-page"><h4 id="example_source">Source</h4>
@@ -23,7 +25,7 @@
 <pre class="prettyprint linenums" ng-set-text="index.html" ng-html-wrap-loaded="app angular.js app.js"></pre>
 <script type="text/ng-template" id="index.html">
    <div ng-controller="NumberInputCtrl">
-       <numberinput ng-model="value" decimals="2" decimal-separator="," />
+       <numberinput ng-model="value" decimals="2" decimal-separator="," step="0.01" />
        <pre><strong>Model value</strong>: {{value}} </pre>
 
        <h6 id="example_source_keyboard-legend">Keyboard legend</h6>
@@ -37,6 +39,17 @@
                <span class="button-descr">decreases the value</span>
            </li>
        </ul>
+        <h6 id="example_source_mouse-legend">Mouse legend</h6>
+        <ul class="keyboard-legend">
+           <li>
+               <span class="key-button">wheel up</span>
+               <span class="button-descr">increases the value</span>
+           </li>
+           <li>
+               <span class="key-button">wheel down</span>
+               <span class="button-descr">decreases the value</span>
+           </li>
+         </ul>
    </div>
 </script>
 </div>
