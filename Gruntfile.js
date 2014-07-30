@@ -60,7 +60,7 @@ module.exports = function (grunt) {
           }
         },
         clean: {
-            all: ['<%= dist %>'],
+            dist: ['<%= dist %>'],
             docs: ['<%= ngdocs.options.dest %>']
         },
         ngdocs: {
@@ -168,6 +168,9 @@ module.exports = function (grunt) {
     }
 
     grunt.registerTask('build', 'Build the distributable', function () {
+
+        grunt.task.run(['pre-build']);
+
         var _ = grunt.util._;
 
         // Search all modules inside of the src/ directory
@@ -205,18 +208,28 @@ module.exports = function (grunt) {
             'concat.dist.src',
             grunt.config('concat.dist.src').concat(srcFiles).concat(tpljsFiles));
 
-        grunt.task.run(['test', 'clean', 'concat', 'uglify']);
+        grunt.task.run(['concat', 'uglify']);
     });
 
-    grunt.registerTask('test', 'Run the tests (single-run)', ['html2js', 'karma']);
+    grunt.registerTask(
+        'pre-build',
+        'Pre-build tasks for configuring the build environment',
+        ['clean', 'test']
+    );
+
+    grunt.registerTask('test', 'Run the tests on a single-run karma server', ['html2js', 'karma']);
+
+    grunt.registerTask('build-docs', 'Build the API reference', function () {
+       grunt.task.run(['build', 'ngdocs']);
+    });
 
     grunt.registerTask('show-docs', 'Open the API docs', function () {
-        grunt.task.run(['build', 'ngdocs', 'open:docs', 'connect']);
+        grunt.task.run(['build-docs', 'open:docs', 'connect']);
     });
 
-    grunt.registerTask('default', ['show-docs']);
+    grunt.registerTask('publish-docs', 'Publish the API reference', ['build', 'ngdocs', 'gh-pages']);
 
-    grunt.registerTask('publish-docs', ['build', 'ngdocs', 'gh-pages']);
+    grunt.registerTask('default', 'Build the distributable', ['build']);
 
     return grunt;
 }
