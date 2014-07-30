@@ -234,4 +234,104 @@ describe('numberinput', function () {
         });
     });
 
+    describe('step setting', function () {
+        var element;
+
+        describe('should use the default value of 1', function() {
+
+            beforeEach(function () {
+                var html = '<numberinput ng-model="input" />';
+                element = createInput(html);
+            });
+
+            it('for an increment', function () {
+                changeInputValueTo(element, '1');
+                triggerKeyDown(element, 38);
+                expect(element.val()).toEqual('2');
+                expect($scope.input).toEqual(2);
+
+                triggerMouseWheelEvent(element, 1);
+                expect(element.val()).toEqual('3');
+                expect($scope.input).toEqual(3);
+            });
+
+            it('for a decrement', function () {
+                changeInputValueTo(element, '2');
+                triggerKeyDown(element, 40);
+                expect(element.val()).toEqual('1');
+                expect($scope.input).toEqual(1);
+
+                triggerMouseWheelEvent(element, -1);
+                expect(element.val()).toEqual('0');
+                expect($scope.input).toEqual(0);
+            });
+        });
+
+        describe('should use the specified value', function () {
+
+            beforeEach(function () {
+                var html = '<numberinput ng-model="input" step="10" />';
+                element = createInput(html);
+            });
+
+            it('for an increment', function () {
+                changeInputValueTo(element, '0');
+                triggerKeyDown(element, 38);
+                expect(element.val()).toEqual('10');
+                expect($scope.input).toEqual(10);
+
+                triggerMouseWheelEvent(element, 1);
+                expect(element.val()).toEqual('20');
+                expect($scope.input).toEqual(20);
+            });
+
+            it('for an decrement', function () {
+                changeInputValueTo(element, '50');
+                triggerKeyDown(element, 40);
+                expect(element.val()).toEqual('40');
+                expect($scope.input).toEqual(40);
+
+                triggerMouseWheelEvent(element, -1);
+                expect(element.val()).toEqual('30');
+                expect($scope.input).toEqual(30);
+            });
+        });
+
+        describe('should be able to handle JavaScript floating point math', function () {
+
+            it('for an increment', function () {
+                var html = '<numberinput ng-model="input" step="0.01" />';
+                element = createInput(html);
+
+                changeInputValueTo(element, '0.06');
+                triggerKeyDown(element, 38);
+                expect(element.val()).toEqual('0.07'); // can be 0.06999999999999...round properly!
+                expect($scope.input).toEqual(0.07);
+
+                changeInputValueTo(element, '0.06');
+                triggerMouseWheelEvent(element, 1);
+                expect(element.val()).toEqual('0.07');
+                expect($scope.input).toEqual(0.07);
+            });
+        });
+
+        describe('should be able to handle invalid values', function () {
+
+            it('such as a non-numeric value', function () {
+               var element = createInput('<numberinput ng-model="input" step="abc" />');
+                changeInputValueTo(element, '1.25');
+                triggerKeyDown(element, 38);
+                expect(element.val()).toEqual('2.25');
+                expect($scope.input).toEqual(2.25);
+            });
+
+            it('such as a value smaller than the minimum (e.g.: decimals = 2, minimum step value = 0.01)', function () {
+                var element = createInput('<numberinput ng-model="input" decimals="2" step="0.001" />');
+                changeInputValueTo(element, '1.25');
+                triggerKeyDown(element, 38);
+                expect(element.val()).toEqual('1.26');
+                expect($scope.input).toEqual(1.26);
+            });
+        });
+    });
 });

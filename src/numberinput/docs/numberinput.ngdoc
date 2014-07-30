@@ -11,12 +11,13 @@
  * @param {string} ngModel Assignable angular expression to data-bind to.
  * @param {string=} decimal-separator The decimal separator to display (default: .).
  * @param {number=} decimals The maximum number of allowed decimals (default: 2).
+ * @param {number=} step The value to increment or decrement with (default: 1).
  *
  * @example
  <example module="app">
  <file name="index.html">
     <div ng-controller="NumberInputCtrl">
-        <numberinput ng-model="value" decimals="2" decimal-separator="," />
+        <numberinput ng-model="value" decimals="2" decimal-separator="," step="0.01" />
         <pre><strong>Model value</strong>: {{value}} </pre>
 
         <h4>Keyboard legend</h4>
@@ -30,6 +31,17 @@
                 <span class="button-descr">decreases the value</span>
             </li>
         </ul>
+         <h4>Mouse legend</h4>
+         <ul class="keyboard-legend">
+            <li>
+                <span class="key-button">wheel up</span>
+                <span class="button-descr">increases the value</span>
+            </li>
+            <li>
+                <span class="key-button">wheel down</span>
+                <span class="button-descr">decreases the value</span>
+            </li>
+          </ul>
     </div>
  </file>
  <file name="app.js">

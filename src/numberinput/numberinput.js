@@ -30,6 +30,12 @@ angular.module('ui.cg.numberinput', [])
                 }
             }
 
+            var step = scope.$eval(attrs.step) || 1;
+            var minimumStep = decimals === 0 ? 1 : parseFloat('0.' + Array(decimals).join("0") + "1", 10);
+            if (step < minimumStep) {
+                step = minimumStep;
+            }
+
             function sanitizeFloat(input) {
                 function clean(input) {
                     return input.replace(/[^-0-9]/g, '');
@@ -68,6 +74,24 @@ angular.module('ui.cg.numberinput', [])
                 return parseFloat(input.replace(decimalSeparator, '.'));
             }
 
+            function addToModelValue(step) {
+                return function () {
+                    var modelValue = ctrl.$modelValue;
+                    if (isNaN(modelValue)) {
+                        modelValue = 0;
+                    }
+
+                    var multiplier = decimals === 0 ? 1 : parseInt('1' + Array(decimals + 1).join("0"), 10);
+                    var modelValue = Math.round((modelValue + step) * multiplier) / multiplier;
+
+                    ctrl.$setViewValue(modelValue);
+                    ctrl.$render();
+                }
+            }
+
+            var incrementByStep = addToModelValue(step);
+            var decrementByStep = addToModelValue(step * -1);
+
             function sanitize(input) {
 
                 if (angular.isUndefined(input) || input.length === 0) {
@@ -105,18 +129,13 @@ angular.module('ui.cg.numberinput', [])
 
                 evt.stopPropagation();
 
-                var modelValue = ctrl.$modelValue;
-                if (isNaN(modelValue)) {
-                    modelValue = 0;
-                }
-
                 if (evt.which === 40) {
-                    modelValue = modelValue - 1;
+                    decrementByStep();
                 } else if (evt.which === 38) {
-                    modelValue = modelValue + 1;
+                    incrementByStep();
                 }
 
-                ctrl.$setViewValue(modelValue);
+                scope.$apply();
             });
 
             element.bind('mousewheel wheel', function(evt) {
@@ -132,13 +151,14 @@ angular.module('ui.cg.numberinput', [])
 
                 evt.preventDefault();
 
-                var modelValue = ctrl.$modelValue;
-                if (isNaN(modelValue)) {
-                    modelValue = 0;
+                if (isScrollingUp(evt)) {
+                    incrementByStep();
                 }
-                modelValue = isScrollingUp(evt) ? modelValue + 1 : modelValue - 1;
+                else {
+                    decrementByStep();
+                }
 
-                ctrl.$setViewValue(modelValue);
+                scope.$apply();
             });
 
             element.bind('blur', function () {
