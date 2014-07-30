@@ -36,6 +36,12 @@ describe('numberinput', function () {
         element.trigger(e);
     };
 
+    function triggerMouseWheelEvent(element, delta) {
+        var e = $.Event('mousewheel');
+        e.wheelDelta = delta;
+        element.trigger(e);
+    }
+
     describe('basic functionality', function () {
         var element;
 
@@ -146,7 +152,7 @@ describe('numberinput', function () {
         });
     });
 
-    describe('keyboard navigation', function () {
+    describe('should respond on keyboard navigation', function () {
         var element;
 
         beforeEach(function () {
@@ -154,33 +160,64 @@ describe('numberinput', function () {
             element = createInput(html);
         });
 
-        it('should increase the value when the up arrow is pressed', function () {
+        it('by increasing the value when the up arrow is pressed', function () {
             changeInputValueTo(element, '1');
             triggerKeyDown(element, 38);
             expect(element.val()).toEqual('2');
             expect($scope.input).toEqual(2);
         });
 
-        it('should decrease the value when the down arrow is pressed', function () {
+        it('by decreasing the value when the down arrow is pressed', function () {
             changeInputValueTo(element, '2');
             triggerKeyDown(element, 40);
             expect(element.val()).toEqual('1');
             expect($scope.input).toEqual(1);
         });
 
-        it('should start at zero when the up arrow is pressed for an empty value', function () {
+        it('by starting at zero when the up arrow is pressed for an empty value', function () {
             changeInputValueTo(element, '');
             triggerKeyDown(element, 38);
             expect(element.val()).toEqual('1');
             expect($scope.input).toEqual(1);
         });
 
-        it('should start at zero when the down arrow is pressed for an empty value', function () {
+        it('by starting at zero when the down arrow is pressed for an empty value', function () {
             changeInputValueTo(element, '');
             triggerKeyDown(element, 40);
             expect(element.val()).toEqual('-1');
             expect($scope.input).toEqual(-1);
         })
+    });
+
+    describe('should respond on mousewheel events', function () {
+        var element;
+
+        beforeEach(function () {
+           var html = '<numberinput ng-model="input" decimals="0" />';
+            element = createInput(html);
+        });
+
+        it('by increasing the value when the mouse wheel is scrolled up', function  (){
+            changeInputValueTo(element, '1')
+            triggerMouseWheelEvent(element, 1);
+            expect(element.val()).toEqual('2');
+            expect($scope.input).toEqual(2);
+
+            triggerMouseWheelEvent(element, 1);
+            expect(element.val()).toEqual('3');
+            expect($scope.input).toEqual(3);
+        });
+
+        it('by decreasing the value when the mouse wheel is scrolled down', function () {
+            changeInputValueTo(element, '2');
+            triggerMouseWheelEvent(element, -1);
+            expect(element.val()).toEqual('1');
+            expect($scope.input).toEqual(1);
+
+            triggerMouseWheelEvent(element, -1);
+            expect(element.val()).toEqual('0');
+            expect($scope.input).toEqual(0);
+        });
     });
 
 });

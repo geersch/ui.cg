@@ -119,6 +119,25 @@ angular.module('ui.cg.numberinput', [])
                 ctrl.$setViewValue(modelValue);
             });
 
+            element.bind('mousewheel wheel', function(evt) {
+
+                var isScrollingUp = function (e) {
+                    if (e.originalEvent) {
+                        e = e.originalEvent;
+                    }
+                    //pick correct delta variable depending on event
+                    var delta = (e.wheelDelta) ? e.wheelDelta : -e.deltaY;
+                    return (e.detail || delta > 0);
+                };
+
+                evt.preventDefault();
+
+                var modelValue = ctrl.$modelValue;
+                modelValue = isScrollingUp(evt) ? modelValue + 1 : modelValue - 1;
+
+                ctrl.$setViewValue(modelValue);
+            });
+
             element.bind('blur', function () {
                 var value = element.val();
                 if (angular.isUndefined(value) || value.length === 0) {
