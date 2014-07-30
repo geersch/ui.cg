@@ -125,7 +125,7 @@ angular.module('ui.cg.numberinput', [])
                     if (e.originalEvent) {
                         e = e.originalEvent;
                     }
-                    //pick correct delta variable depending on event
+
                     var delta = (e.wheelDelta) ? e.wheelDelta : -e.deltaY;
                     return (e.detail || delta > 0);
                 };
@@ -133,6 +133,9 @@ angular.module('ui.cg.numberinput', [])
                 evt.preventDefault();
 
                 var modelValue = ctrl.$modelValue;
+                if (isNaN(modelValue)) {
+                    modelValue = 0;
+                }
                 modelValue = isScrollingUp(evt) ? modelValue + 1 : modelValue - 1;
 
                 ctrl.$setViewValue(modelValue);

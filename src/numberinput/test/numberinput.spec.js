@@ -218,6 +218,20 @@ describe('numberinput', function () {
             expect(element.val()).toEqual('0');
             expect($scope.input).toEqual(0);
         });
+
+        it('by starting at zero when the mouse wheel is scrolled up for an empty value', function () {
+            changeInputValueTo(element, '');
+            triggerMouseWheelEvent(element, 1);
+            expect(element.val()).toEqual('1');
+            expect($scope.input).toEqual(1);
+        });
+
+        it('by starting at zero when the mouse wheel is scrolled down for an empty value', function () {
+            changeInputValueTo(element, '');
+            triggerMouseWheelEvent(element, -1);
+            expect(element.val()).toEqual('-1');
+            expect($scope.input).toEqual(-1);
+        });
     });
 
 });
