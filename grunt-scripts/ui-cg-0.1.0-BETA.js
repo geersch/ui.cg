@@ -1,7 +1,7 @@
 /*
  * cg-ui
  * https://github.com/geersch/ui.cg
- * Version: 0.1.0-BETA - 2014-07-29
+ * Version: 0.1.0-BETA - 2014-07-30
  * License: MIT
  */
 angular.module("ui.cg", ["ui.cg.tpls", "ui.cg.numberinput","ui.cg.timepicker"]);
@@ -165,6 +165,28 @@ angular.module('ui.cg.numberinput', [])
                 } else if (evt.which === 38) {
                     modelValue = modelValue + 1;
                 }
+
+                ctrl.$setViewValue(modelValue);
+            });
+
+            element.bind('mousewheel wheel', function(evt) {
+
+                var isScrollingUp = function (e) {
+                    if (e.originalEvent) {
+                        e = e.originalEvent;
+                    }
+
+                    var delta = (e.wheelDelta) ? e.wheelDelta : -e.deltaY;
+                    return (e.detail || delta > 0);
+                };
+
+                evt.preventDefault();
+
+                var modelValue = ctrl.$modelValue;
+                if (isNaN(modelValue)) {
+                    modelValue = 0;
+                }
+                modelValue = isScrollingUp(evt) ? modelValue + 1 : modelValue - 1;
 
                 ctrl.$setViewValue(modelValue);
             });
