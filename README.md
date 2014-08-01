@@ -8,6 +8,10 @@ An API reference can be here:
 
 [http://geersch.github.io/ui.cg/#/api](http://geersch.github.io/ui.cg/#/api)
 
+## Controls
+
+* [numberinput](http://geersch.github.io/ui.cg/#/api/cg.ui.directive:numberinput)
+
 ## Development
 
 #### Prepare your environment
