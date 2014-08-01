@@ -40,3 +40,4 @@ Check the Grunt build file for other tasks that are defined for this project.
 - [ ] add support for spin buttons (off by default)
 - [ ] numberinput -> mouse wheel events should be opt-in
 - [ ] numberinput -> keyboard events should be opt-in
+- [ ] numberinput -> option to make it readonly
