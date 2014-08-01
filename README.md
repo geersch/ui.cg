@@ -32,4 +32,6 @@ angular.module('myModule', ['ui.cg']);
 
 Check the Grunt build file for other tasks that are defined for this project.
 
+#### Todo's
 
+- [ ] fix issue with numberinput accepting - sign
