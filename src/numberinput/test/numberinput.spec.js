@@ -123,6 +123,29 @@ describe('numberinput', function () {
             expect(getElementValue(element)).toEqual('4.56');
             expect(typeof getElementValue(element)).toEqual('string');
         });
+
+        it('should allow the minus sign (-) to be entered as the first character', function () {
+            changeInputValueTo(element, '-');
+            expect(getElementValue(element)).toEqual('-');
+            expect($scope.input).toEqual(0);
+        });
+
+        it('should only accept one minus sign (-)', function () {
+            changeInputValueTo(element, '-5-6');
+            expect(getElementValue(element)).toEqual('-56');
+            expect($scope.input).toEqual(-56);
+
+            changeInputValueTo(element, '56---78---91');
+            expect(getElementValue(element)).toEqual('567891');
+            expect($scope.input).toEqual(567891);
+
+            // bug fix test: it should only remove duplicate minus signs, not the decimal separator!
+            element = createInput('<numberinput ng-model="input" step="0.01" />');
+            changeInputValueTo(element, '0');
+            triggerKeyDown(element, 40);
+            expect(getElementValue(element)).toEqual('-0.01');
+            expect($scope.input).toEqual(-0.01);
+        });
     });
 
     describe('decimal separator setting', function () {
