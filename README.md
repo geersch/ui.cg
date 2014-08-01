@@ -8,6 +8,10 @@ An API reference can be here:
 
 [http://geersch.github.io/ui.cg/#/api](http://geersch.github.io/ui.cg/#/api)
 
+## Controls
+
+* [numberinput](http://geersch.github.io/ui.cg/#/api/cg.ui.directive:numberinput)
+
 ## Development
 
 #### Prepare your environment
@@ -28,4 +32,12 @@ angular.module('myModule', ['ui.cg']);
 
 Check the Grunt build file for other tasks that are defined for this project.
 
+#### Todo's
 
+- [ ] fix issue with numberinput accepting - sign
+- [ ] add support for a maximum value (default: none) for the numberinput
+- [ ] add support for a minimum value (default: none) for the numberinput
+- [ ] add support for spin buttons (off by default)
+- [ ] numberinput -> mouse wheel events should be opt-in
+- [ ] numberinput -> keyboard events should be opt-in
+- [ ] numberinput -> option to make it readonly
