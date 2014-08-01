@@ -212,6 +212,10 @@ angular.module('ui.cg.numberinput', [])
                     return input.replace(/[^-0-9]/g, '');
                 }
 
+                function removeMinusSign(input) {
+                    return input.replace(/-/g, '');
+                }
+
                 var decimalSeparator = numberinputCtrl.getDecimalSeparator();
                 var decimals = numberinputCtrl.getDecimals();
 
@@ -232,6 +236,17 @@ angular.module('ui.cg.numberinput', [])
                     sanitized = clean(sanitized);
                 }
 
+                position = sanitized.indexOf('-');
+                if (position !== -1) {
+                    var part1, part2;
+                    if (position === 0) {
+                        sanitized = sanitized.substr(0, 1) +
+                            removeMinusSign(sanitized.substr(1));
+                    } else {
+                        sanitized = removeMinusSign(sanitized);
+                    }
+                }
+
                 // Remove the trailing decimals separator if no decimals are allowed
                 if (decimals === 0 && sanitized.indexOf(decimalSeparator) === sanitized.length - 1) {
                     sanitized = sanitized.substr(0, sanitized.length - 1);
@@ -242,12 +257,17 @@ angular.module('ui.cg.numberinput', [])
 
             function convertToFloat(input) {
                 if (angular.isUndefined(input) || input.length === 0) {
-                    return undefined;
+                    return 0;
                 }
 
                 var decimalSeparator = numberinputCtrl.getDecimalSeparator();
 
-                return parseFloat(input.replace(decimalSeparator, '.'), 10);
+                var result = parseFloat(input.replace(decimalSeparator, '.'), 10);
+                if (isNaN(result)) { // e.g.: when typing the minus (-) sign
+                    result = 0;
+                }
+
+                return result;
             }
 
             function sanitize(input) {
