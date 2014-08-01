@@ -33,7 +33,7 @@ describe('numberinput', function () {
 
         inject(function ($rootScope, $compile) {
             $scope = $rootScope.$new();
-            $scope.input = 200;
+            $scope.input = 0;
             element = $compile(angular.element(html))($scope);
             $rootScope.$digest();
         });
@@ -54,6 +54,15 @@ describe('numberinput', function () {
         var input = element.find('input').eq(0);
         input.trigger(e);
     }
+
+    describe('UI', function () {
+
+        it('should be rendered correctly upon creation', function () {
+            var element = createInput('<numberinput ng-model="input" />');
+
+            expect(getElementValue(element)).toEqual('0.00');
+        });
+    });
 
     describe('with default settings', function () {
         var element;
@@ -128,7 +137,20 @@ describe('numberinput', function () {
             var element = createInput('<numberinput ng-model="input" decimal-separator="abc" />');
             changeInputValueTo(element, '4.56');
             expect(getElementValue(element)).toEqual('4a56');
-        })
+        });
+
+        it('should update the value if the setting changes', function () {
+            var element = createInput('<numberinput ng-model="input" decimal-separator="{{decimalSeparator}}" />');
+            $scope.decimalSeparator = ',';
+            $scope.input = 2.35;
+            $scope.$apply();
+
+            expect(getElementValue(element)).toEqual('2,35');
+            $scope.decimalSeparator = 'x';
+            $scope.$apply();
+
+            expect(getElementValue(element)).toEqual('2x35');
+        });
     });
 
     describe('decimals setting', function () {
@@ -165,6 +187,19 @@ describe('numberinput', function () {
             changeInputValueTo(element, '1.2345');
             expect($scope.input).toEqual(1.23);
             expect(getElementValue(element)).toEqual('1.23');
+        });
+
+        it('should update the value if the setting changes', function () {
+            var element = createInput('<numberinput ng-model="input" decimals="{{decimals}}" />');
+            $scope.decimals = 2;
+            $scope.input = 2.35;
+            $scope.$apply();
+
+            expect(getElementValue(element)).toEqual('2.35');
+            $scope.decimals = 3;
+            $scope.$apply();
+
+            expect(getElementValue(element)).toEqual('2.350');
         });
     });
 
@@ -348,6 +383,24 @@ describe('numberinput', function () {
                 expect(getElementValue(element)).toEqual('1.26');
                 expect($scope.input).toEqual(1.26);
             });
+        });
+
+        it('should update the step if the setting changes', function () {
+            element = createInput('<numberinput ng-model="input" step="{{step}}" />');
+            $scope.step = 1;
+            $scope.input = 10;
+            $scope.$apply();
+
+            expect(getElementValue(element)).toEqual('10');
+            triggerKeyDown(element, 38);
+            expect(getElementValue(element)).toEqual('11');
+
+            $scope.step = 10;
+            $scope.$apply();
+            expect(getElementValue(element)).toEqual('11');
+            triggerKeyDown(element, 38);
+            expect(getElementValue(element)).toEqual('21');
+            expect($scope.input).toEqual(21);
         });
     });
 });

@@ -216,20 +216,28 @@ angular.module('ui.cg.numberinput', [])
                 return String(input).replace('.', decimalSeparator);
             });
 
-            element.bind('blur', function () {
-                var value = element.val();
-                if (angular.isUndefined(value) || value.length === 0) {
+            function render() {
+                var modelValue = ngModelCtrl.$modelValue;
+                if (angular.isUndefined(modelValue) || isNaN(modelValue)) {
                     return;
                 }
 
                 var decimalSeparator = numberinputCtrl.getDecimalSeparator();
                 var decimals = numberinputCtrl.getDecimals();
 
-                value = parseFloat(value.replace(decimalSeparator, '.'));
-                var rounded = value.toFixed(decimals).replace('.', decimalSeparator);
-                if (rounded !== value) {
-                    element.val(rounded);
+                var viewValue = modelValue.toFixed(decimals).replace('.', decimalSeparator);
+                if (viewValue !== ngModelCtrl.$viewValue) {
+                    ngModelCtrl.$setViewValue(viewValue);
+                    ngModelCtrl.$render();
                 }
+            }
+
+            element.bind('blur', function () {
+                render();
+            });
+
+            scope.$watch('decimals + decimalSeparator', function (newVal, oldVal) {
+                render();
             });
         }
     }
