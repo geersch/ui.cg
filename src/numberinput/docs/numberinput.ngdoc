@@ -12,6 +12,7 @@
  * @param {string=} decimal-separator The decimal separator to display (default: .).
  * @param {number=} decimals The maximum number of allowed decimals (default: 2).
  * @param {number=} step The value to increment or decrement with (default: 1).
+ * @param {boolean=} mousewheel Whether user can scroll inside the input to increase or decrease the value (default: true).
  *
  * @example
  <example module="app">

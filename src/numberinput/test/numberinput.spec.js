@@ -271,6 +271,15 @@ describe('numberinput', function () {
             element = createInput(html);
         });
 
+        it('should be disabled if explicitly turned off', function () {
+            element = createInput('<numberinput ng-model="input" mousewheel="false" />');
+            changeInputValueTo(element, '1');
+            expect($scope.input).toEqual(1);
+
+            triggerMouseWheelEvent(element, 1);
+            expect($scope.input).toEqual(1);
+        });
+
         it('should increase the value when the mouse wheel is scrolled up', function  (){
             changeInputValueTo(element, '1')
             triggerMouseWheelEvent(element, 1);
