@@ -4,6 +4,7 @@ angular.module('ui.cg.numberinput', [])
     decimalSeparator: '.',
     decimals: 2,
     step: 1,
+    keyboard: true,
     mousewheel: true
 })
 
@@ -13,7 +14,11 @@ angular.module('ui.cg.numberinput', [])
     this.init = function (element) {
         var input = element.find('input').eq(0);
 
-        this.bindKeyboardEvents(input);
+        var keyboard = angular.isDefined($attrs.keyboard) ? $scope.$eval($attrs.keyboard) : numberinputConfig.keyboard;
+        if (keyboard) {
+            this.bindKeyboardEvents(input);
+        }
+        
         var mousewheel = angular.isDefined($attrs.mousewheel) ? $scope.$eval($attrs.mousewheel) : numberinputConfig.mousewheel;
         if (mousewheel) {
             this.bindMouseWheelEvents(input);

@@ -234,6 +234,18 @@ describe('numberinput', function () {
             element = createInput(html);
         });
 
+        it('should be disabled if explicitly turned off', function () {
+            element = createInput('<numberinput ng-model="input" keyboard="false" />');
+            changeInputValueTo(element, '1');
+            expect($scope.input).toEqual(1);
+
+            triggerKeyDown(element, 38);
+            expect($scope.input).toEqual(1);
+
+            triggerKeyDown(element, 40);
+            expect($scope.input).toEqual(1);
+        });
+
         it('should increase the value when the up arrow is pressed', function () {
             changeInputValueTo(element, '1');
             triggerKeyDown(element, 38);
@@ -277,6 +289,9 @@ describe('numberinput', function () {
             expect($scope.input).toEqual(1);
 
             triggerMouseWheelEvent(element, 1);
+            expect($scope.input).toEqual(1);
+
+            triggerMouseWheelEvent(element, -1);
             expect($scope.input).toEqual(1);
         });
 
