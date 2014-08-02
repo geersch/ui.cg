@@ -34,7 +34,7 @@ Check the Grunt build file for other tasks that are defined for this project.
 
 #### Todo's
 
-- [ ] fix issue with numberinput accepting - sign
+- [x] fix issue with numberinput accepting - sign
 - [ ] add support for a maximum value (default: none) for the numberinput
 - [ ] add support for a minimum value (default: none) for the numberinput
 - [ ] add support for spin buttons (off by default)
