@@ -21,6 +21,7 @@ angular.module("ui.cg.tpls", ["template/numberinput/numberinput.html","template/
  * @param {number=} decimals The maximum number of allowed decimals (default: 2).
  * @param {number=} step The value to increment or decrement with (default: 1).
  * @param {boolean=} mousewheel Whether user can scroll inside the input to increase or decrease the value (default: true).
+ * @param {boolean=} keyboard Whether use can increase of decrease the value using the keyboard up/down arrows (default: true).
  *
  * @example
  <example module="app">
@@ -67,6 +68,7 @@ angular.module('ui.cg.numberinput', [])
     decimalSeparator: '.',
     decimals: 2,
     step: 1,
+    keyboard: true,
     mousewheel: true
 })
 
@@ -76,7 +78,11 @@ angular.module('ui.cg.numberinput', [])
     this.init = function (element) {
         var input = element.find('input').eq(0);
 
-        this.bindKeyboardEvents(input);
+        var keyboard = angular.isDefined($attrs.keyboard) ? $scope.$eval($attrs.keyboard) : numberinputConfig.keyboard;
+        if (keyboard) {
+            this.bindKeyboardEvents(input);
+        }
+
         var mousewheel = angular.isDefined($attrs.mousewheel) ? $scope.$eval($attrs.mousewheel) : numberinputConfig.mousewheel;
         if (mousewheel) {
             this.bindMouseWheelEvents(input);
