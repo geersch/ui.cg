@@ -515,4 +515,102 @@ describe('numberinput', function () {
             expect($scope.input).toEqual(21);
         });
     });
+
+    describe('maximum setting', function () {
+        var element;
+
+        beforeEach(function() {
+            element = createInput('<numberinput ng-model="input" maximum="100" />');
+        });
+
+        it('should revert to the maximum value on blur if the entered value exceeds the maximium', function () {
+            changeInputValueTo(element, '300');
+            blur(element);
+            expect(getElementValue(element)).toEqual('100.00');
+            expect($scope.input).toEqual(100);
+        });
+
+        it('should not exceed the maximum value on step', function () {
+            // keyboard
+            changeInputValueTo(element, '99');
+            expect($scope.input).toEqual(99);
+            triggerKeyDown(element, 38);
+            expect($scope.input).toEqual(100);
+            triggerKeyDown(element, 38);
+            expect($scope.input).toEqual(100);
+
+            // by mouse wheel
+            changeInputValueTo(element, '99');
+            expect($scope.input).toEqual(99);
+            triggerMouseWheelEvent(element, 1);
+            expect($scope.input).toEqual(100);
+            triggerMouseWheelEvent(element, 1);
+            expect($scope.input).toEqual(100);
+
+            // spin buttons
+            changeInputValueTo(element, '99');
+            expect($scope.input).toEqual(99);
+            var arrow = getUpArrow(element);
+            doClick(arrow);
+            expect($scope.input).toEqual(100);
+            doClick(arrow);
+            expect($scope.input).toEqual(100);
+        });
+
+        it('should revert to maximum value on keyboard navigation if the entered value exceeds the maximum', function() {
+            changeInputValueTo(element, '200');
+            expect($scope.input).toEqual(200);
+            triggerKeyDown(element, 38);
+            expect($scope.input).toEqual(100);
+
+            changeInputValueTo(element, '200');
+            expect($scope.input).toEqual(200);
+            triggerKeyDown(element, 40);
+            expect($scope.input).toEqual(100);
+        });
+
+        it('should revert to maximum value on mouse navigation if the entered value exceeds the maximum', function() {
+            changeInputValueTo(element, '200');
+            expect($scope.input).toEqual(200);
+            triggerMouseWheelEvent(element, 1);
+            expect($scope.input).toEqual(100);
+
+            changeInputValueTo(element, '200');
+            expect($scope.input).toEqual(200);
+            triggerMouseWheelEvent(element, -1);
+            expect($scope.input).toEqual(100);
+        });
+
+        it('should revert to maximum value on spin button navigation if the entered value exceeds the maximum', function() {
+            changeInputValueTo(element, '200');
+            expect($scope.input).toEqual(200);
+            blur(element);
+            var arrow = getUpArrow(element);
+            doClick(arrow);
+            expect($scope.input).toEqual(100);
+
+            changeInputValueTo(element, '200');
+            expect($scope.input).toEqual(200);
+            blur(element);
+            var arrow = getDownArrow(element);
+            doClick(arrow);
+            expect($scope.input).toEqual(99);
+        });
+
+        it('should update the maximum if the setting changes', function () {
+            element = createInput('<numberinput ng-model="input" maximum="{{maximum}}" />');
+            $scope.maximum = 100;
+            $scope.input = 99;
+            $scope.$apply();
+
+            expect($scope.input).toEqual(99);
+            triggerKeyDown(element, 38);
+            expect($scope.input).toEqual(100);
+
+            $scope.maximum = 101;
+            $scope.$apply();
+            triggerKeyDown(element, 38);
+            expect($scope.input).toEqual(101);
+        });
+    });
 });

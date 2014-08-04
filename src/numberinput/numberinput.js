@@ -36,6 +36,8 @@ angular.module('ui.cg.numberinput', [])
         var modelValue = Math.round((modelValue + step) * multiplier) / multiplier;
 
         $scope.number = modelValue;
+
+        checkValueBoundaries();
     }
 
     $scope.increment = function () {
@@ -152,6 +154,40 @@ angular.module('ui.cg.numberinput', [])
         $attrs.$observe('spinner', function (value) {
             $scope.spinner = angular.isDefined(value) ? $scope.$eval(value) : true;
         });
+    }
+
+    this.getMaximum = function() {
+        return $scope.maximum;
+    }
+
+    if ($attrs.maximum) {
+        $attrs.$observe('maximum', function (value) {
+            $scope.maximum = parseInt(value, 10);
+        });
+    }
+
+    function checkValueBoundaries() {
+        if (angular.isUndefined($scope.number) || isNaN($scope.number)) {
+            return;
+        }
+
+        var multiplier = decimals === 0 ? 1 : parseInt('1' + Array(decimals + 1).join("0"), 10);
+        if (angular.isDefined($scope.maximum) && !isNaN($scope.maximum)) {
+            if (Math.round($scope.number * multiplier) > Math.round($scope.maximum * multiplier)) {
+                updateValue($scope.maximum);
+                return;
+            }
+        }
+    }
+
+    this.checkValueBoundaries = checkValueBoundaries;
+
+    function  updateValue(value) {
+        if (isNaN(value)) {
+            return;
+        }
+
+        $scope.number = value;
     }
 }])
 
@@ -271,6 +307,10 @@ angular.module('ui.cg.numberinput', [])
             }
 
             element.bind('blur', function () {
+                scope.$apply(function () {
+                    numberinputCtrl.checkValueBoundaries();
+                });
+
                 render();
             });
 
