@@ -1,7 +1,7 @@
 /*
  * cg-ui
  * https://github.com/geersch/ui.cg
- * Version: 0.1.0-BETA - 2014-08-02
+ * Version: 0.1.0-BETA - 2014-08-04
  * License: MIT
  */
 angular.module("ui.cg", ["ui.cg.tpls", "ui.cg.numberinput","ui.cg.timepicker"]);
@@ -22,6 +22,7 @@ angular.module("ui.cg.tpls", ["template/numberinput/numberinput.html","template/
  * @param {number=} step The value to increment or decrement with (default: 1).
  * @param {boolean=} mousewheel Whether user can scroll inside the input to increase or decrease the value (default: true).
  * @param {boolean=} keyboard Whether use can increase of decrease the value using the keyboard up/down arrows (default: true).
+ * @param {boolean=} spinner Whether or not spin buttons are shown (default: true).
  *
  * @example
  <example module="app">
@@ -69,7 +70,8 @@ angular.module('ui.cg.numberinput', [])
     decimals: 2,
     step: 1,
     keyboard: true,
-    mousewheel: true
+    mousewheel: true,
+    spinner: true
 })
 
 .controller('NumberInputController', ['$scope', '$attrs', 'numberinputConfig', function ($scope, $attrs, numberinputConfig) {
@@ -82,7 +84,7 @@ angular.module('ui.cg.numberinput', [])
         if (keyboard) {
             this.bindKeyboardEvents(input);
         }
-
+        
         var mousewheel = angular.isDefined($attrs.mousewheel) ? $scope.$eval($attrs.mousewheel) : numberinputConfig.mousewheel;
         if (mousewheel) {
             this.bindMouseWheelEvents(input);
@@ -98,7 +100,7 @@ angular.module('ui.cg.numberinput', [])
         var multiplier = decimals === 0 ? 1 : parseInt('1' + Array(decimals + 1).join("0"), 10);
         var modelValue = Math.round((modelValue + step) * multiplier) / multiplier;
 
-        $scope.number = modelValue
+        $scope.number = modelValue;
     }
 
     $scope.increment = function () {
@@ -207,6 +209,13 @@ angular.module('ui.cg.numberinput', [])
             }
 
             step = parsed;
+        });
+    }
+
+    $scope.spinner = numberinputConfig.spinner;
+    if ($attrs.spinner) {
+        $attrs.$observe('spinner', function (value) {
+            $scope.spinner = angular.isDefined(value) ? $scope.$eval(value) : true;
         });
     }
 }])
@@ -406,13 +415,17 @@ angular.module('ui.cg.timepicker', [])
 });
 angular.module("template/numberinput/numberinput.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("template/numberinput/numberinput.html",
-    "<table>\n" +
-    "    <tr>\n" +
-    "        <td>\n" +
-    "            <input type=\"text\" ng-model=\"number\" float />\n" +
-    "        </td>\n" +
-    "    </tr>\n" +
-    "</table>");
+    "<div class=\"input-append\">\n" +
+    "    <input type=\"text\" class=\"input-mini\" type=\"text\" ng-model=\"number\" float>\n" +
+    "    <span class=\"btn-group\" ng-show=\"spinner\">\n" +
+    "        <button class=\"btn\" ng-click=\"increment()\">\n" +
+    "            <i class=\"icon icon-chevron-up\"></i>\n" +
+    "        </button>\n" +
+    "       <button class=\"btn\" ng-click=\"decrement()\">\n" +
+    "           <i class=\"icon icon-chevron-down\"></i>\n" +
+    "       </button>\n" +
+    "    </span>\n" +
+    "</div>");
 }]);
 
 angular.module("template/timepicker/timepicker.html", []).run(["$templateCache", function($templateCache) {
