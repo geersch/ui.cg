@@ -21,7 +21,7 @@ angular.module("ui.cg.tpls", ["template/numberinput/numberinput.html","template/
  * @param {number=} decimals The maximum number of allowed decimals (default: 2).
  * @param {number=} step The value to increment or decrement with (default: 1).
  * @param {boolean=} mousewheel Whether user can scroll inside the input to increase or decrease the value (default: true).
- * @param {boolean=} keyboard Whether use can increase of decrease the value using the keyboard up/down arrows (default: true).
+ * @param {boolean=} keyboard Whether user can increase of decrease the value using the keyboard up/down arrows (default: true).
  * @param {boolean=} spinner Whether or not spin buttons are shown (default: true).
  *
  * @example
