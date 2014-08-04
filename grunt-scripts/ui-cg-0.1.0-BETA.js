@@ -23,12 +23,14 @@ angular.module("ui.cg.tpls", ["template/numberinput/numberinput.html","template/
  * @param {boolean=} mousewheel Whether user can scroll inside the input to increase or decrease the value (default: true).
  * @param {boolean=} keyboard Whether user can increase of decrease the value using the keyboard up/down arrows (default: true).
  * @param {boolean=} spinner Whether or not spin buttons are shown (default: true).
+ * @param {number=} maximium The maximum allowed value.
  *
  * @example
  <example module="app">
  <file name="index.html">
     <div ng-controller="NumberInputCtrl">
-        <numberinput ng-model="value" decimals="2" decimal-separator="," step="0.01" />
+        <numberinput ng-model="value" decimals="2" decimal-separator=","
+            step="0.01" maximum="100" />
         <pre><strong>Model value</strong>: {{value}} </pre>
 
         <h4>Keyboard legend</h4>
@@ -101,6 +103,8 @@ angular.module('ui.cg.numberinput', [])
         var modelValue = Math.round((modelValue + step) * multiplier) / multiplier;
 
         $scope.number = modelValue;
+
+        checkValueBoundaries();
     }
 
     $scope.increment = function () {
@@ -217,6 +221,40 @@ angular.module('ui.cg.numberinput', [])
         $attrs.$observe('spinner', function (value) {
             $scope.spinner = angular.isDefined(value) ? $scope.$eval(value) : true;
         });
+    }
+
+    this.getMaximum = function() {
+        return $scope.maximum;
+    }
+
+    if ($attrs.maximum) {
+        $attrs.$observe('maximum', function (value) {
+            $scope.maximum = parseInt(value, 10);
+        });
+    }
+
+    function checkValueBoundaries() {
+        if (angular.isUndefined($scope.number) || isNaN($scope.number)) {
+            return;
+        }
+
+        var multiplier = decimals === 0 ? 1 : parseInt('1' + Array(decimals + 1).join("0"), 10);
+        if (angular.isDefined($scope.maximum) && !isNaN($scope.maximum)) {
+            if (Math.round($scope.number * multiplier) > Math.round($scope.maximum * multiplier)) {
+                updateValue($scope.maximum);
+                return;
+            }
+        }
+    }
+
+    this.checkValueBoundaries = checkValueBoundaries;
+
+    function  updateValue(value) {
+        if (isNaN(value)) {
+            return;
+        }
+
+        $scope.number = value;
     }
 }])
 
@@ -336,6 +374,10 @@ angular.module('ui.cg.numberinput', [])
             }
 
             element.bind('blur', function () {
+                scope.$apply(function () {
+                    numberinputCtrl.checkValueBoundaries();
+                });
+
                 render();
             });
 

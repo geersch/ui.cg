@@ -19,7 +19,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "cg.ui",
       "shortDescription": "Input for a floating point number with a configurable decimal separator (default: .) and decimals (default: 2).",
-      "keywords": "$scope allowed angular api app arrow arrows assignable button-descr buttons cg class configurable controller data-bind decimal decimal-separator decimals decrease decrement directive display expression floating function html increase increment input inside js key-button keyboard keyboard-legend legend maximum module mousewheel ng-controller ng-model ngmodel number numberinput numberinputctrl point scroll separator spin spinner step true ui user var"
+      "keywords": "$scope allowed angular api app arrow arrows assignable button-descr buttons cg class configurable controller data-bind decimal decimal-separator decimals decrease decrement directive display expression floating function html increase increment input inside js key-button keyboard keyboard-legend legend maximium maximum module mousewheel ng-controller ng-model ngmodel number numberinput numberinputctrl point scroll separator spin spinner step true ui user var"
     },
     {
       "section": "api",
