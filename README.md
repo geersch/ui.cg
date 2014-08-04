@@ -38,6 +38,6 @@ Check the Grunt build file for other tasks that are defined for this project.
 - [ ] add support for a maximum value (default: none) for the numberinput
 - [ ] add support for a minimum value (default: none) for the numberinput
 - [ ] add support for spin buttons (off by default)
-- [ ] numberinput -> mouse wheel events should be opt-in
-- [ ] numberinput -> keyboard events should be opt-in
+- [x] numberinput -> mouse wheel events should be opt-out
+- [x] numberinput -> keyboard events should be opt-out
 - [ ] numberinput -> option to make it readonly
