@@ -41,6 +41,19 @@ describe('numberinput', function () {
         return element;
     }
 
+    function getUpArrow(element) {
+        return element.find('button').eq(0);
+    }
+
+    function getDownArrow(element) {
+        return element.find('button').eq(1);
+    }
+
+    function doClick(arrow) {
+        var e = $.Event('click');
+        arrow.trigger(e);
+    }
+
     var triggerKeyDown = function (element, keyCode) {
         var e = $.Event('keydown');
         e.which = keyCode;
@@ -56,12 +69,64 @@ describe('numberinput', function () {
     }
 
     describe('UI', function () {
+        var element;
+
+        beforeEach(function () {
+            element = createInput('<numberinput ng-model="input" />');
+        });
+
+        it('contains one input & two buttons', function () {
+            expect(element.find('input').length).toEqual(1);
+            expect(element.find('button').length).toEqual(2);
+        });
 
         it('should be rendered correctly upon creation', function () {
-            var element = createInput('<numberinput ng-model="input" />');
-
             expect(getElementValue(element)).toEqual('0.00');
         });
+
+        it('should not show the spinner if turned off', function () {
+            element = createInput('<numberinput ng-model="input" spinner="false" />');
+            var spinner = element.find('span.btn-group');
+            expect(spinner.hasClass('ng-hide')).toBeTruthy();
+        });
+
+        it('should show the spinner by default', function () {
+            var spinner = element.find('span.btn-group');
+            expect(spinner.hasClass('ng-hide')).toBeFalsy();
+        });
+
+        it('should toggle the spinner if the spinner setting changes', function () {
+            element = createInput('<numberinput ng-model="input" spinner="{{spinner}}" />');
+            var spinner = element.find('span.btn-group');
+            $scope.spinner = false;
+            $scope.$apply();
+            expect(spinner.hasClass('ng-hide')).toBeTruthy();
+
+            $scope.spinner = true;
+            $scope.$apply();
+            expect(spinner.hasClass('ng-hide')).toBeFalsy();
+
+            $scope.spinner = false;
+            $scope.$apply();
+            expect(spinner.hasClass('ng-hide')).toBeTruthy();
+        });
+
+        it('increases the value when the up arrow is clicked', function () {
+            changeInputValueTo(element, '1');
+            var arrow = getUpArrow(element);
+            doClick(arrow);
+            expect(getElementValue(element)).toEqual('2');
+            expect($scope.input).toEqual(2);
+        });
+
+        it('decreases the value when the down arrow is clicked', function () {
+            changeInputValueTo(element, '10');
+            var arrow = getDownArrow(element);
+            doClick(arrow);
+            expect(getElementValue(element)).toEqual('9');
+            expect($scope.input).toEqual(9);
+        });
+
     });
 
     describe('with default settings', function () {

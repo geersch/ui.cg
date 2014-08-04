@@ -1,11 +1,11 @@
-<table>
-    <tr>
-        <td>
-            <input type="text" ng-model="number" float class="input-mini" />
-        </td>
-        <td>
-            <a class="btn btn-link"><div class="icon icon-chevron-up pull-right"></div></a>
-            <a class="btn btn-link"><div class="icon icon-chevron-down pull-left"></div></a>
-        </td>
-    </tr>
-</table>
+<div class="input-append">
+    <input type="text" class="input-mini" type="text" ng-model="number" float>
+    <span class="btn-group" ng-show="spinner">
+        <button class="btn" ng-click="increment()">
+            <i class="icon icon-chevron-up"></i>
+        </button>
+       <button class="btn" ng-click="decrement()">
+           <i class="icon icon-chevron-down"></i>
+       </button>
+    </span>
+</div>

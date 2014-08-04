@@ -5,7 +5,8 @@ angular.module('ui.cg.numberinput', [])
     decimals: 2,
     step: 1,
     keyboard: true,
-    mousewheel: true
+    mousewheel: true,
+    spinner: true
 })
 
 .controller('NumberInputController', ['$scope', '$attrs', 'numberinputConfig', function ($scope, $attrs, numberinputConfig) {
@@ -34,7 +35,7 @@ angular.module('ui.cg.numberinput', [])
         var multiplier = decimals === 0 ? 1 : parseInt('1' + Array(decimals + 1).join("0"), 10);
         var modelValue = Math.round((modelValue + step) * multiplier) / multiplier;
 
-        $scope.number = modelValue
+        $scope.number = modelValue;
     }
 
     $scope.increment = function () {
@@ -143,6 +144,13 @@ angular.module('ui.cg.numberinput', [])
             }
 
             step = parsed;
+        });
+    }
+
+    $scope.spinner = numberinputConfig.spinner;
+    if ($attrs.spinner) {
+        $attrs.$observe('spinner', function (value) {
+            $scope.spinner = angular.isDefined(value) ? $scope.$eval(value) : true;
         });
     }
 }])
