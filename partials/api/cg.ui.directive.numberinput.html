@@ -16,7 +16,8 @@
        [keyboard="{boolean}"]
        [spinner="{boolean}"]
        [maximium="{number}"]
-       [minimum="{number}"]&gt;
+       [minimum="{number}"]
+       [ng-disabled="{boolean}"]&gt;
 &lt;/numberinput&gt;</pre>
 <h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>ngModel</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="cg-ui-directive-page cg-ui-directive-numberinput-page"><p>Assignable angular expression to data-bind to.</p>
 </div></td></tr><tr><td>decimal-separator <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="cg-ui-directive-page cg-ui-directive-numberinput-page"><p>The decimal separator to display (default: .).</p>
@@ -27,6 +28,7 @@
 </div></td></tr><tr><td>spinner <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="cg-ui-directive-page cg-ui-directive-numberinput-page"><p>Whether or not spin buttons are shown (default: true).</p>
 </div></td></tr><tr><td>maximium <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-number">number</a></td><td><div class="cg-ui-directive-page cg-ui-directive-numberinput-page"><p>The maximum allowed value (default none).</p>
 </div></td></tr><tr><td>minimum <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-number">number</a></td><td><div class="cg-ui-directive-page cg-ui-directive-numberinput-page"><p>The minimum allowed value (default: none).</p>
+</div></td></tr><tr><td>ngDisabled <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="cg-ui-directive-page cg-ui-directive-numberinput-page"><p>Assignable angular expression to disable the numberinput controls (default :false).</p>
 </div></td></tr></tbody></table></div>
 <h2 id="example">Example</h2>
 <div class="example"><div class="cg-ui-directive-page cg-ui-directive-numberinput-page"><h4 id="example_source">Source</h4>
@@ -36,7 +38,8 @@
 <script type="text/ng-template" id="index.html">
    <div ng-controller="NumberInputCtrl">
        <numberinput ng-model="value" decimals="2" decimal-separator=","
-           step="0.01" maximum="100" minimum="0" />
+           step="0.01" maximum="100" minimum="0" ng-disabled="disabled" />
+       Disabled: <input type="checkbox" ng-model="disabled"><br />
        <pre><strong>Model value</strong>: {{value}} </pre>
 
        <h6 id="example_source_keyboard-legend">Keyboard legend</h6>
@@ -70,6 +73,7 @@
    var app = angular.module('app', ['ui.cg']);
    app.controller('NumberInputCtrl', ['$scope', function ($scope) {
        $scope.value = 34.75;
+       $scope.disabled = false;
    }]);
 </script>
 </div>

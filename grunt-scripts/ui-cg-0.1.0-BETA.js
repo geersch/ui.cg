@@ -25,13 +25,15 @@ angular.module("ui.cg.tpls", ["template/numberinput/numberinput.html","template/
  * @param {boolean=} spinner Whether or not spin buttons are shown (default: true).
  * @param {number=} maximium The maximum allowed value (default none).
  * @param {number=} minimum The minimum allowed value (default: none).
+ * @param {boolean=} ngDisabled Assignable angular expression to disable the numberinput controls (default :false).
  *
  * @example
  <example module="app">
  <file name="index.html">
     <div ng-controller="NumberInputCtrl">
         <numberinput ng-model="value" decimals="2" decimal-separator=","
-            step="0.01" maximum="100" minimum="0" />
+            step="0.01" maximum="100" minimum="0" ng-disabled="disabled" />
+        Disabled: <input type="checkbox" ng-model="disabled"><br />
         <pre><strong>Model value</strong>: {{value}} </pre>
 
         <h4>Keyboard legend</h4>
@@ -62,6 +64,7 @@ angular.module("ui.cg.tpls", ["template/numberinput/numberinput.html","template/
     var app = angular.module('app', ['ui.cg']);
     app.controller('NumberInputCtrl', ['$scope', function ($scope) {
         $scope.value = 34.75;
+        $scope.disabled = false;
     }]);
  </file>
  </example>
@@ -95,6 +98,10 @@ angular.module('ui.cg.numberinput', [])
     };
 
     function stepIt(step) {
+        if ($scope.disabled === true) {
+            return;
+        }
+
         var modelValue = $scope.number;
         if (isNaN(modelValue)) {
             modelValue = 0;
@@ -409,7 +416,8 @@ angular.module('ui.cg.numberinput', [])
             number: '=ngModel',
             decimalSeparator: '@',
             decimals: '@',
-            step: '@'
+            step: '@',
+            disabled: '=ngDisabled'
         },
         link: function (scope, element, attrs, ctrls) {
             var numberinputCtrl = ctrls[0];
@@ -468,12 +476,12 @@ angular.module('ui.cg.timepicker', [])
 angular.module("template/numberinput/numberinput.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("template/numberinput/numberinput.html",
     "<div class=\"input-append\">\n" +
-    "    <input type=\"text\" class=\"input-mini\" type=\"text\" ng-model=\"number\" float>\n" +
+    "    <input type=\"text\" class=\"input-mini\" type=\"text\" ng-model=\"number\" float ng-disabled=\"disabled\">\n" +
     "    <span class=\"btn-group\" ng-show=\"spinner\">\n" +
-    "        <button class=\"btn\" ng-click=\"increment()\">\n" +
+    "        <button class=\"btn\" ng-click=\"increment()\" ng-disabled=\"disabled\">\n" +
     "            <i class=\"icon icon-chevron-up\"></i>\n" +
     "        </button>\n" +
-    "       <button class=\"btn\" ng-click=\"decrement()\">\n" +
+    "       <button class=\"btn\" ng-click=\"decrement()\" ng-disabled=\"disabled\">\n" +
     "           <i class=\"icon icon-chevron-down\"></i>\n" +
     "       </button>\n" +
     "    </span>\n" +
