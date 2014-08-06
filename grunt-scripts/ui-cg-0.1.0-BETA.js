@@ -1,7 +1,7 @@
 /*
  * cg-ui
  * https://github.com/geersch/ui.cg
- * Version: 0.1.0-BETA - 2014-08-04
+ * Version: 0.1.0-BETA - 2014-08-06
  * License: MIT
  */
 angular.module("ui.cg", ["ui.cg.tpls", "ui.cg.numberinput","ui.cg.timepicker"]);
@@ -23,14 +23,15 @@ angular.module("ui.cg.tpls", ["template/numberinput/numberinput.html","template/
  * @param {boolean=} mousewheel Whether user can scroll inside the input to increase or decrease the value (default: true).
  * @param {boolean=} keyboard Whether user can increase of decrease the value using the keyboard up/down arrows (default: true).
  * @param {boolean=} spinner Whether or not spin buttons are shown (default: true).
- * @param {number=} maximium The maximum allowed value.
+ * @param {number=} maximium The maximum allowed value (default none).
+ * @param {number=} minimum The minimum allowed value (default: none).
  *
  * @example
  <example module="app">
  <file name="index.html">
     <div ng-controller="NumberInputCtrl">
         <numberinput ng-model="value" decimals="2" decimal-separator=","
-            step="0.01" maximum="100" />
+            step="0.01" maximum="100" minimum="0" />
         <pre><strong>Model value</strong>: {{value}} </pre>
 
         <h4>Keyboard legend</h4>
@@ -223,14 +224,16 @@ angular.module('ui.cg.numberinput', [])
         });
     }
 
-    this.getMaximum = function() {
-        return $scope.maximum;
-    }
-
     if ($attrs.maximum) {
         $attrs.$observe('maximum', function (value) {
-            $scope.maximum = parseInt(value, 10);
+            $scope.maximum = parseFloat(value, 10);
         });
+    }
+
+    if ($attrs.minimum) {
+        $attrs.$observe('minimum', function (value) {
+            $scope.minimum = parseFloat(value, 10);
+        })
     }
 
     function checkValueBoundaries() {
@@ -242,6 +245,13 @@ angular.module('ui.cg.numberinput', [])
         if (angular.isDefined($scope.maximum) && !isNaN($scope.maximum)) {
             if (Math.round($scope.number * multiplier) > Math.round($scope.maximum * multiplier)) {
                 updateValue($scope.maximum);
+                return;
+            }
+        }
+
+        if (angular.isDefined($scope.minimum) && !isNaN($scope.minimum)) {
+            if (Math.round($scope.number * multiplier) < Math.round($scope.minimum * multiplier)) {
+                updateValue($scope.minimum);
                 return;
             }
         }
