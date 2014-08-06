@@ -27,6 +27,10 @@ angular.module('ui.cg.numberinput', [])
     };
 
     function stepIt(step) {
+        if ($scope.disabled === true) {
+            return;
+        }
+
         var modelValue = $scope.number;
         if (isNaN(modelValue)) {
             modelValue = 0;
@@ -341,7 +345,8 @@ angular.module('ui.cg.numberinput', [])
             number: '=ngModel',
             decimalSeparator: '@',
             decimals: '@',
-            step: '@'
+            step: '@',
+            disabled: '=ngDisabled'
         },
         link: function (scope, element, attrs, ctrls) {
             var numberinputCtrl = ctrls[0];

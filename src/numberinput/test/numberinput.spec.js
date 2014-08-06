@@ -711,4 +711,66 @@ describe('numberinput', function () {
             expect($scope.input).toEqual(9);
         });
     });
+
+    describe('ng-disabled setting', function () {
+        var element;
+
+        beforeEach(function () {
+            element = createInput('<numberinput ng-model="input" ng-disabled="disabled" />');
+            $scope.disabled = true;
+            $scope.$apply();
+        });
+
+        it('should disable the input', function () {
+            var input = element.find('input').eq(0);
+            expect(input.is(':disabled')).toBeTruthy();
+        });
+
+        it('should disable the spin buttons', function () {
+            var upArrow = getUpArrow(element);
+            expect(upArrow.is(':disabled')).toBeTruthy();
+            var downArrow = getDownArrow(element);
+            expect(downArrow.is(':disabled')).toBeTruthy();
+        });
+
+        it('should disable the mouse navigation', function () {
+            changeInputValueTo(element, '10');
+            expect(getElementValue(element)).toEqual('10');
+
+            triggerMouseWheelEvent(element, 1);
+            expect(getElementValue(element)).toEqual('10');
+
+            triggerMouseWheelEvent(element, -1);
+            expect(getElementValue(element)).toEqual('10');
+        });
+
+        it('should disable the keyboard navigation', function () {
+            changeInputValueTo(element, '10');
+            expect(getElementValue(element)).toEqual('10');
+
+            triggerKeyDown(element, 38);
+            expect(getElementValue(element)).toEqual('10');
+
+            triggerKeyDown(element, 40);
+            expect(getElementValue(element)).toEqual('10');
+        });
+
+        it('should enable the controls if the setting changes', function () {
+            var input = element.find('input').eq(0);
+            var upArrow = getUpArrow(element);
+            var downArrow = getDownArrow(element);
+
+            $scope.disabled = false;
+            $scope.$apply();
+            expect(input.is(':disabled')).toBeFalsy();
+            expect(upArrow.is(':disabled')).toBeFalsy();
+            expect(downArrow.is(':disabled')).toBeFalsy();
+
+            $scope.disabled = true;
+            $scope.$apply();
+            expect(input.is(':disabled')).toBeTruthy();
+            expect(upArrow.is(':disabled')).toBeTruthy();
+            expect(downArrow.is(':disabled')).toBeTruthy();
+        });
+    });
 });
