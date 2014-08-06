@@ -613,4 +613,102 @@ describe('numberinput', function () {
             expect($scope.input).toEqual(101);
         });
     });
+
+    describe('minimum setting', function () {
+        var element;
+
+        beforeEach(function () {
+           element = createInput('<numberinput ng-model="input" minimum="10" />');
+        });
+
+        it('should revert to the minimum value on blur if the entered value exceeds the minimum', function () {
+            changeInputValueTo(element, '9');
+            blur(element);
+            expect(getElementValue(element)).toEqual('10.00');
+            expect($scope.input).toEqual(10);
+        });
+
+        it('should not exceed the minimum value on step', function () {
+            // keyboard
+            changeInputValueTo(element, '11');
+            expect($scope.input).toEqual(11);
+            triggerKeyDown(element, 40);
+            expect($scope.input).toEqual(10);
+            triggerKeyDown(element, 40);
+            expect($scope.input).toEqual(10);
+
+            // mouse
+            changeInputValueTo(element, '11');
+            expect($scope.input).toEqual(11);
+            triggerMouseWheelEvent(element, -1);
+            expect($scope.input).toEqual(10);
+            triggerMouseWheelEvent(element, -1);
+            expect($scope.input).toEqual(10);
+
+            // spin buttons
+            changeInputValueTo(element, '11');
+            expect($scope.input).toEqual(11);
+            var arrow = getDownArrow(element);
+            doClick(arrow);
+            expect($scope.input).toEqual(10);
+            doClick(arrow);
+            expect($scope.input).toEqual(10);
+        });
+
+        it('should revert to the minimum value on keyboard navigation if the entered value exceeds the minimum', function () {
+            changeInputValueTo(element, '5');
+            expect($scope.input).toEqual(5);
+            triggerKeyDown(element, 38);
+            expect($scope.input).toEqual(10);
+
+            changeInputValueTo(element, '5');
+            expect($scope.input).toEqual(5);
+            triggerKeyDown(element, 40);
+            expect($scope.input).toEqual(10);
+        });
+
+        it('should revert to the minimum value on mouse navigation if the entered value exceeds the minimum', function () {
+            changeInputValueTo(element, '5');
+            expect($scope.input).toEqual(5);
+            triggerMouseWheelEvent(element, 1);
+            expect($scope.input).toEqual(10);
+
+            changeInputValueTo(element, '5');
+            expect($scope.input).toEqual(5);
+            triggerMouseWheelEvent(element, -1);
+            expect($scope.input).toEqual(10);
+        });
+
+        it('should revert to the minimum value on spin button navigation if the entered value exceeds the minimum', function () {
+            changeInputValueTo(element, '5');
+            expect($scope.input).toEqual(5);
+            blur(element);
+            var arrow = getUpArrow(element);
+            doClick(arrow);
+            expect($scope.input).toEqual(11);
+
+            changeInputValueTo(element, '5');
+            expect($scope.input).toEqual(5);
+            blur(element);
+            var arrow = getDownArrow(element);
+            doClick(arrow);
+            expect($scope.input).toEqual(10);
+        });
+
+        it('should update the minimum if the setting changes', function () {
+            element = createInput('<numberinput ng-model="input" minimum="{{minimum}}" />');
+            $scope.minimum = 10;
+            $scope.input = 10;
+            $scope.$apply();
+
+            expect($scope.input).toEqual(10);
+            triggerKeyDown(element, 40);
+            expect($scope.input).toEqual(10);
+
+            $scope.minimum = 9;
+            $scope.$apply();
+            triggerKeyDown(element, 40);
+            expect($scope.input).toEqual(9);
+        });
+    });
 });

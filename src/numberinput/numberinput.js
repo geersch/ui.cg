@@ -156,14 +156,16 @@ angular.module('ui.cg.numberinput', [])
         });
     }
 
-    this.getMaximum = function() {
-        return $scope.maximum;
-    }
-
     if ($attrs.maximum) {
         $attrs.$observe('maximum', function (value) {
-            $scope.maximum = parseInt(value, 10);
+            $scope.maximum = parseFloat(value, 10);
         });
+    }
+
+    if ($attrs.minimum) {
+        $attrs.$observe('minimum', function (value) {
+            $scope.minimum = parseFloat(value, 10);
+        })
     }
 
     function checkValueBoundaries() {
@@ -175,6 +177,13 @@ angular.module('ui.cg.numberinput', [])
         if (angular.isDefined($scope.maximum) && !isNaN($scope.maximum)) {
             if (Math.round($scope.number * multiplier) > Math.round($scope.maximum * multiplier)) {
                 updateValue($scope.maximum);
+                return;
+            }
+        }
+
+        if (angular.isDefined($scope.minimum) && !isNaN($scope.minimum)) {
+            if (Math.round($scope.number * multiplier) < Math.round($scope.minimum * multiplier)) {
+                updateValue($scope.minimum);
                 return;
             }
         }
