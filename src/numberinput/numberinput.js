@@ -346,7 +346,9 @@ angular.module('ui.cg.numberinput', [])
             decimalSeparator: '@',
             decimals: '@',
             step: '@',
-            disabled: '=ngDisabled'
+            disabled: '=ngDisabled',
+            required: '=ngRequired',
+            name: '@'
         },
         link: function (scope, element, attrs, ctrls) {
             var numberinputCtrl = ctrls[0];

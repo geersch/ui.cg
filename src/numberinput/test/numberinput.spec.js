@@ -72,12 +72,17 @@ describe('numberinput', function () {
         var element;
 
         beforeEach(function () {
-            element = createInput('<numberinput ng-model="input" />');
+            element = createInput('<numberinput ng-model="input" name="foobar" />');
         });
 
         it('contains one input & two buttons', function () {
             expect(element.find('input').length).toEqual(1);
             expect(element.find('button').length).toEqual(2);
+        });
+
+        it('input element should have a name if set', function () {
+            var input = element.find('input').eq(0);
+            expect(input.attr('name')).toEqual('foobar');
         });
 
         it('should be rendered correctly upon creation', function () {
@@ -772,5 +777,31 @@ describe('numberinput', function () {
             expect(upArrow.is(':disabled')).toBeTruthy();
             expect(downArrow.is(':disabled')).toBeTruthy();
         });
+    });
+
+    describe('ng-required setting', function () {
+        var element, input;
+
+        beforeEach(function () {
+            element = createInput('<numberinput ng-model="input" ng-required="true" />');
+            input = element.find('input').eq(0);
+            $scope.disabled = true;
+            $scope.$apply();
+        });
+
+        it('should set the required attribute', function () {
+            expect(input.attr('ng-required')).toBeDefined();
+            expect(input.attr('required')).toBeDefined();
+        });
+
+        it('should require a value', function () {
+            changeInputValueTo(element, '10');
+            expect(input.hasClass('ng-valid')).toBeTruthy();
+            expect(input.hasClass('ng-valid-required')).toBeTruthy();
+
+            changeInputValueTo(element, '');
+            expect(input.hasClass('ng-invalid')).toBeTruthy();
+            expect(input.hasClass('ng-invalid-required')).toBeTruthy();
+        })
     });
 });
