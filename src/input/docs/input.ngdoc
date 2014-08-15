@@ -1,0 +1,40 @@
+/**
+ * @ngdoc directive
+ * @name cg.ui.directive:input
+ * @element input
+ * @restrict E
+ * @function
+ *
+ * @description
+ * Adds some features to AngularJS' input directive.
+ *
+ * formName.inputName.$focused: Returns true if the input has focus, false if not.
+ *
+ *
+ * @example
+ <example module="app">
+ <file name="index.html">
+    <div ng-controller="MainCtrl">
+        <form name="form">
+            <input name="input1" ng-model="value1" />
+            <strong>Focused: </strong>{{form.input1.$focused}}
+            <br />
+
+            <input name="input2" ng-model="value2" />
+            <strong>Focused: </strong>{{form.input2.$focused}}
+            <br />
+
+            <input name="input3" ng-model="value3" />
+            <strong>Focused: </strong>{{form.input3.$focused}}
+        </form>
+    </div>
+ </file>
+ <file name="app.js">
+    var app = angular.module('app', ['ui.cg']);
+
+    app.controller('MainCtrl', ['$scope', function($scope) {
+
+    }]);
+ </file>
+ </example>
+ */
