@@ -36,8 +36,9 @@ Check the Grunt build file for other tasks that are defined for this project.
 
 - [x] fix issue with numberinput accepting - sign
 - [x] add support for a maximum value (default: none) for the numberinput
-- [ ] add support for a minimum value (default: none) for the numberinput
+- [x] add support for a minimum value (default: none) for the numberinput
 - [x] add support for spin buttons (on by default)
 - [x] numberinput -> mouse wheel events should be opt-out
 - [x] numberinput -> keyboard events should be opt-out
-- [ ] numberinput -> option to make it readonly
+- [x] numberinput -> option to make it readonly
+- [ ] block-ui -> Integrate: http://run.plnkr.co/plunks/xNYghCU0Cn8F72KV1uE6/
