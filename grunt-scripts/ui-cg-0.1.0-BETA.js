@@ -1,11 +1,79 @@
 /*
  * cg-ui
  * https://github.com/geersch/ui.cg
- * Version: 0.1.0-BETA - 2014-08-06
+ * Version: 0.1.0-BETA - 2014-08-15
  * License: MIT
  */
-angular.module("ui.cg", ["ui.cg.tpls", "ui.cg.numberinput","ui.cg.timepicker"]);
+angular.module("ui.cg", ["ui.cg.tpls", "ui.cg.input","ui.cg.numberinput","ui.cg.timepicker"]);
 angular.module("ui.cg.tpls", ["template/numberinput/numberinput.html","template/timepicker/timepicker.html"])
+/**
+ * @ngdoc directive
+ * @name cg.ui.directive:input
+ * @element input
+ * @restrict E
+ * @function
+ *
+ * @description
+ * Adds some features to AngularJS' input directive.
+ *
+ * formName.inputName.$focused: Returns true if the input has focus, false if not.
+ *
+ *
+ * @example
+ <example module="app">
+ <file name="index.html">
+    <div ng-controller="MainCtrl">
+        <form name="form">
+            <input name="input1" ng-model="value1" />
+            <strong>Focused: </strong>{{form.input1.$focused}}
+            <br />
+
+            <input name="input2" ng-model="value2" />
+            <strong>Focused: </strong>{{form.input2.$focused}}
+            <br />
+
+            <input name="input3" ng-model="value3" />
+            <strong>Focused: </strong>{{form.input3.$focused}}
+        </form>
+    </div>
+ </file>
+ <file name="app.js">
+    var app = angular.module('app', ['ui.cg']);
+
+    app.controller('MainCtrl', ['$scope', function($scope) {
+
+    }]);
+ </file>
+ </example>
+ */
+angular.module('ui.cg.input', [])
+
+.directive('input', function () {
+    return {
+        restrict: 'E',
+        require: ['ngModel'],
+        link: function (scope, element, attrs, ctrls) {
+            var ngModelCtrl = ctrls[0];
+            if (angular.isUndefined(ngModelCtrl)) {
+                return;
+            }
+
+            ngModelCtrl.$focused = false;
+
+            element.bind('focus', function (event) {
+                scope.$apply(function () {
+                    ngModelCtrl.$focused = true;
+                });
+            });
+
+            element.bind('blur', function (event) {
+                scope.$apply(function () {
+                    ngModelCtrl.$focused = false;
+                });
+            });
+        }
+    };
+});
 /**
  * @ngdoc directive
  * @name cg.ui.directive:numberinput
@@ -417,7 +485,9 @@ angular.module('ui.cg.numberinput', [])
             decimalSeparator: '@',
             decimals: '@',
             step: '@',
-            disabled: '=ngDisabled'
+            disabled: '=ngDisabled',
+            required: '=ngRequired',
+            name: '@'
         },
         link: function (scope, element, attrs, ctrls) {
             var numberinputCtrl = ctrls[0];
@@ -476,12 +546,12 @@ angular.module('ui.cg.timepicker', [])
 angular.module("template/numberinput/numberinput.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("template/numberinput/numberinput.html",
     "<div class=\"input-append\">\n" +
-    "    <input type=\"text\" class=\"input-mini\" type=\"text\" ng-model=\"number\" float ng-disabled=\"disabled\">\n" +
+    "    <input name=\"{{name}}\" type=\"text\" class=\"input-mini\" type=\"text\" ng-model=\"number\" float ng-disabled=\"disabled\" ng-required=\"required\">\n" +
     "    <span class=\"btn-group\" ng-show=\"spinner\">\n" +
-    "        <button class=\"btn\" ng-click=\"increment()\" ng-disabled=\"disabled\">\n" +
+    "        <button class=\"btn\" type=\"button\" ng-click=\"increment()\" ng-disabled=\"disabled\">\n" +
     "            <i class=\"icon icon-chevron-up\"></i>\n" +
     "        </button>\n" +
-    "       <button class=\"btn\" ng-click=\"decrement()\" ng-disabled=\"disabled\">\n" +
+    "       <button class=\"btn\" type=\"button\" ng-click=\"decrement()\" ng-disabled=\"disabled\">\n" +
     "           <i class=\"icon icon-chevron-down\"></i>\n" +
     "       </button>\n" +
     "    </span>\n" +

@@ -14,6 +14,15 @@ NG_DOCS={
     },
     {
       "section": "api",
+      "id": "cg.ui.directive:input",
+      "shortName": "input",
+      "type": "directive",
+      "moduleName": "cg.ui",
+      "shortDescription": "Adds some features to AngularJS&#39; input directive.",
+      "keywords": "$focused $scope adds angular angularjs api app cg controller directive false features focus form formname function html input input1 input2 input3 inputname js mainctrl module ng-controller ng-model returns true ui value1 value2 value3 var"
+    },
+    {
+      "section": "api",
       "id": "cg.ui.directive:numberinput",
       "shortName": "numberinput",
       "type": "directive",
