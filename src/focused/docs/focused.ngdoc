@@ -1,12 +1,12 @@
 /**
  * @ngdoc directive
- * @name cg.ui.directive:input
- * @element input
- * @restrict E
+ * @name cg.ui.directive:focused
+ * @element input type="text"
+ * @restrict A
  * @function
  *
  * @description
- * Adds some features to AngularJS' input directive.
+ * Add this attribute on an input element so that it knows whether or not it has focus.
  *
  * formName.inputName.$focused: Returns true if the input has focus, false if not.
  *
@@ -16,16 +16,20 @@
  <file name="index.html">
     <div ng-controller="MainCtrl">
         <form name="form">
-            <input name="input1" ng-model="value1" />
+            <input name="input1" ng-model="value1" focused />
             <strong>Focused: </strong>{{form.input1.$focused}}
             <br />
 
-            <input name="input2" ng-model="value2" />
+            <input name="input2" ng-model="value2" focused />
             <strong>Focused: </strong>{{form.input2.$focused}}
             <br />
 
-            <input name="input3" ng-model="value3" />
+            <input name="input3" ng-model="value3" focused />
             <strong>Focused: </strong>{{form.input3.$focused}}
+            <br />
+
+            <numberinput name="numberinput" ng-model="number" />
+            <strong>Focused: </strong>{{form.numberinput.$focused}}
         </form>
     </div>
  </file>
@@ -33,7 +37,7 @@
     var app = angular.module('app', ['ui.cg']);
 
     app.controller('MainCtrl', ['$scope', function($scope) {
-
+        $scope.number = 35;
     }]);
  </file>
  </example>

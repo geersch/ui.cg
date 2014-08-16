@@ -5,6 +5,7 @@ describe('numberinput', function () {
         changeInputValueTo;
 
     beforeEach(module('ui.cg.numberinput'));
+    beforeEach(module('ui.cg.focused'));
     beforeEach(module('template/numberinput/numberinput.html'));
 
     beforeEach(inject (function ($sniffer) {
@@ -23,9 +24,14 @@ describe('numberinput', function () {
         return input.val();
     }
 
+    function focus(element) {
+        var input = element.find('input').eq(0);
+        input.triggerHandler('focus');
+    }
+
     function blur(element) {
         var input = element.find('input').eq(0);
-        input.trigger('blur');
+        input.triggerHandler('blur');
     }
 
     function createInput(html) {
@@ -81,8 +87,7 @@ describe('numberinput', function () {
         });
 
         it('input element should have a name if set', function () {
-            var input = element.find('input').eq(0);
-            expect(input.attr('name')).toEqual('foobar');
+            expect(element.attr('name')).toEqual('foobar');
         });
 
         it('should be rendered correctly upon creation', function () {
@@ -780,28 +785,50 @@ describe('numberinput', function () {
     });
 
     describe('ng-required setting', function () {
-        var element, input;
+        var element;
 
         beforeEach(function () {
             element = createInput('<numberinput ng-model="input" ng-required="true" />');
-            input = element.find('input').eq(0);
             $scope.disabled = true;
             $scope.$apply();
         });
 
         it('should set the required attribute', function () {
-            expect(input.attr('ng-required')).toBeDefined();
-            expect(input.attr('required')).toBeDefined();
+            expect(element.attr('ng-required')).toBeDefined();
+            expect(element.attr('required')).toBeDefined();
         });
 
         it('should require a value', function () {
             changeInputValueTo(element, '10');
-            expect(input.hasClass('ng-valid')).toBeTruthy();
-            expect(input.hasClass('ng-valid-required')).toBeTruthy();
+            expect(element.hasClass('ng-valid')).toBeTruthy();
+            expect(element.hasClass('ng-valid-required')).toBeTruthy();
 
             changeInputValueTo(element, '');
-            expect(input.hasClass('ng-invalid')).toBeTruthy();
-            expect(input.hasClass('ng-invalid-required')).toBeTruthy();
+            expect(element.hasClass('ng-invalid')).toBeTruthy();
+            expect(element.hasClass('ng-invalid-required')).toBeTruthy();
         })
+    });
+
+    describe('focused', function () {
+        var element;
+
+        beforeEach(function () {
+            element = createInput('<form name="form"><numberinput name="input" ng-model="input" /></form>');
+            $scope.disabled = true;
+            $scope.$apply();
+        });
+
+        it('should know when it has focus', function () {
+            focus(element);
+            expect($scope.form.input.$focused).toBeTruthy();
+        });
+
+        it('should know when it has lost focus', function () {
+            focus(element);
+            expect($scope.form.input.$focused).toBeTruthy();
+
+            blur(element);
+            expect($scope.form.input.$focused).toBeFalsy();
+        });
     });
 });
