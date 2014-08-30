@@ -125,7 +125,7 @@ describe('numberinput', function () {
             changeInputValueTo(element, '1');
             var arrow = getUpArrow(element);
             doClick(arrow);
-            expect(getElementValue(element)).toEqual('2');
+            expect(getElementValue(element)).toEqual('2.00');
             expect($scope.input).toEqual(2);
         });
 
@@ -133,7 +133,7 @@ describe('numberinput', function () {
             changeInputValueTo(element, '10');
             var arrow = getDownArrow(element);
             doClick(arrow);
-            expect(getElementValue(element)).toEqual('9');
+            expect(getElementValue(element)).toEqual('9.00');
             expect($scope.input).toEqual(9);
         });
 
@@ -148,7 +148,7 @@ describe('numberinput', function () {
 
         it('should only accept numbers as input', function () {
             changeInputValueTo(element, '1a2b3c4d5e');
-            expect(getElementValue(element)).toEqual('12345');
+            expect(getElementValue(element)).toEqual('12345.00');
         });
 
         it('should accept a dot (.) as a decimal separator', function () {
@@ -158,7 +158,8 @@ describe('numberinput', function () {
 
         it('should not accept anything but a dot (.) as a decimal separator', function () {
             changeInputValueTo(element, '1,25');
-            expect(getElementValue(element)).toEqual('125');
+            expect(getElementValue(element)).toEqual('125.00');
+            expect($scope.input).toEqual(125);
         });
 
         it('should only accept one decimal separator', function () {
@@ -207,11 +208,11 @@ describe('numberinput', function () {
 
         it('should only accept one minus sign (-)', function () {
             changeInputValueTo(element, '-5-6');
-            expect(getElementValue(element)).toEqual('-56');
+            expect(getElementValue(element)).toEqual('-56.00');
             expect($scope.input).toEqual(-56);
 
             changeInputValueTo(element, '56---78---91');
-            expect(getElementValue(element)).toEqual('567891');
+            expect(getElementValue(element)).toEqual('567891.00');
             expect($scope.input).toEqual(567891);
 
             // bug fix test: it should only remove duplicate minus signs, not the decimal separator!
@@ -224,6 +225,14 @@ describe('numberinput', function () {
     });
 
     describe('decimal separator setting', function () {
+
+        it('should always accept the numeric keypad dot as a decimal separator', function () {
+
+            var element = createInput( '<numberinput ng-model="input" decimal-separator="," />');
+            focus(element);
+            changeInputValueTo(element, '10.');
+            expect(getElementValue(element)).toEqual('10,');
+        });
 
         it('should accept a custom decimal separator', function () {
             var element = createInput( '<numberinput ng-model="input" decimal-separator="x" />');
@@ -420,22 +429,22 @@ describe('numberinput', function () {
             it('for an increment', function () {
                 changeInputValueTo(element, '1');
                 triggerKeyDown(element, 38);
-                expect(getElementValue(element)).toEqual('2');
+                expect(getElementValue(element)).toEqual('2.00');
                 expect($scope.input).toEqual(2);
 
                 triggerMouseWheelEvent(element, 1);
-                expect(getElementValue(element)).toEqual('3');
+                expect(getElementValue(element)).toEqual('3.00');
                 expect($scope.input).toEqual(3);
             });
 
             it('for a decrement', function () {
                 changeInputValueTo(element, '2');
                 triggerKeyDown(element, 40);
-                expect(getElementValue(element)).toEqual('1');
+                expect(getElementValue(element)).toEqual('1.00');
                 expect($scope.input).toEqual(1);
 
                 triggerMouseWheelEvent(element, -1);
-                expect(getElementValue(element)).toEqual('0');
+                expect(getElementValue(element)).toEqual('0.00');
                 expect($scope.input).toEqual(0);
             });
         });
@@ -450,22 +459,22 @@ describe('numberinput', function () {
             it('for an increment', function () {
                 changeInputValueTo(element, '0');
                 triggerKeyDown(element, 38);
-                expect(getElementValue(element)).toEqual('10');
+                expect(getElementValue(element)).toEqual('10.00');
                 expect($scope.input).toEqual(10);
 
                 triggerMouseWheelEvent(element, 1);
-                expect(getElementValue(element)).toEqual('20');
+                expect(getElementValue(element)).toEqual('20.00');
                 expect($scope.input).toEqual(20);
             });
 
             it('for a decrement', function () {
                 changeInputValueTo(element, '50');
                 triggerKeyDown(element, 40);
-                expect(getElementValue(element)).toEqual('40');
+                expect(getElementValue(element)).toEqual('40.00');
                 expect($scope.input).toEqual(40);
 
                 triggerMouseWheelEvent(element, -1);
-                expect(getElementValue(element)).toEqual('30');
+                expect(getElementValue(element)).toEqual('30.00');
                 expect($scope.input).toEqual(30);
             });
         });
@@ -513,15 +522,15 @@ describe('numberinput', function () {
             $scope.input = 10;
             $scope.$apply();
 
-            expect(getElementValue(element)).toEqual('10');
+            expect(getElementValue(element)).toEqual('10.00');
             triggerKeyDown(element, 38);
-            expect(getElementValue(element)).toEqual('11');
+            expect(getElementValue(element)).toEqual('11.00');
 
             $scope.step = 10;
             $scope.$apply();
-            expect(getElementValue(element)).toEqual('11');
+            expect(getElementValue(element)).toEqual('11.00');
             triggerKeyDown(element, 38);
-            expect(getElementValue(element)).toEqual('21');
+            expect(getElementValue(element)).toEqual('21.00');
             expect($scope.input).toEqual(21);
         });
     });
@@ -829,6 +838,19 @@ describe('numberinput', function () {
 
             blur(element);
             expect($scope.form.input.$focused).toBeFalsy();
+        });
+
+        it('should not round when it has focus', function () {
+            focus(element);
+            $scope.input = 10.1;
+            $scope.$apply();
+            expect(getElementValue(element)).toEqual('10.1');
+        });
+
+        it('should round when it has lost focus', function () {
+            $scope.input = 10.1;
+            $scope.$apply();
+            expect(getElementValue(element)).toEqual('10.10');
         });
     });
 });
