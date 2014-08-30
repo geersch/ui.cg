@@ -78,7 +78,7 @@ describe('numberinput', function () {
         var element;
 
         beforeEach(function () {
-            element = createInput('<numberinput ng-model="input" name="foobar" />');
+            element = createInput('<numberinput ng-model="input" name="foobar" class="span12" />');
         });
 
         it('contains one input & two buttons', function () {
@@ -135,6 +135,11 @@ describe('numberinput', function () {
             doClick(arrow);
             expect(getElementValue(element)).toEqual('9.00');
             expect($scope.input).toEqual(9);
+        });
+
+        it('should apply the class on the input', function () {
+            var input = element.find('input').eq(0);
+            expect(input.hasClass('span12')).toBeTruthy();
         });
 
     });
