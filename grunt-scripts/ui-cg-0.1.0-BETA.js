@@ -168,6 +168,17 @@ angular.module('ui.cg.numberinput', [])
         var input = element.find('input').eq(0);
         ngModelCtrl = input.controller('ngModel');
 
+        if ($attrs.class) {
+            var classes = $attrs.class.split(' ').filter(function (item, index, items) {
+                return item !== 'input-append' && index === items.indexOf(item);
+            });
+            if (classes && classes.length > 0) {
+                classes.forEach(function (c) {
+                    input.addClass(c);
+                })
+            }
+        }
+
         var keyboard = angular.isDefined($attrs.keyboard) ? $scope.$eval($attrs.keyboard) : numberinputConfig.keyboard;
         if (keyboard) {
             this.bindKeyboardEvents(input);
@@ -469,7 +480,7 @@ angular.module('ui.cg.numberinput', [])
                 });
 
                 ngModelCtrl.$render();
-            });         
+            });
         }
     }
 })
@@ -489,6 +500,9 @@ angular.module('ui.cg.numberinput', [])
             disabled: '=ngDisabled'
         },
         link: function (scope, element, attrs, ctrls) {
+
+
+
             var numberinputCtrl = ctrls[0];
             numberinputCtrl.init(element);
         }
