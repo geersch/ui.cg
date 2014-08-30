@@ -24,6 +24,7 @@ angular.module('ui.cg.numberinput', [])
             if (classes && classes.length > 0) {
                 classes.forEach(function (c) {
                     input.addClass(c);
+                    element.removeClass(c);
                 })
             }
         }
