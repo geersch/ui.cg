@@ -11,9 +11,11 @@ angular.module('ui.cg.numberinput', [])
 
 .controller('NumberInputController', ['$scope', '$attrs', 'numberinputConfig', function ($scope, $attrs, numberinputConfig) {
     var HOT_KEYS = [38, 40];
+    var ngModelCtrl;
 
     this.init = function (element) {
         var input = element.find('input').eq(0);
+        ngModelCtrl = input.controller('ngModel');
 
         var keyboard = angular.isDefined($attrs.keyboard) ? $scope.$eval($attrs.keyboard) : numberinputConfig.keyboard;
         if (keyboard) {
@@ -104,6 +106,8 @@ angular.module('ui.cg.numberinput', [])
             }
 
             decimalSeparator = parsed;
+
+            ngModelCtrl.$render();
         })
     }
 
@@ -126,6 +130,8 @@ angular.module('ui.cg.numberinput', [])
             }
 
             decimals = parsed;
+
+            ngModelCtrl.$render();
         });
     }
 
@@ -195,7 +201,7 @@ angular.module('ui.cg.numberinput', [])
 
     this.checkValueBoundaries = checkValueBoundaries;
 
-    function  updateValue(value) {
+    function updateValue(value) {
         if (isNaN(value)) {
             return;
         }
@@ -312,11 +318,7 @@ angular.module('ui.cg.numberinput', [])
                 });
 
                 ngModelCtrl.$render();
-            });
-
-            scope.$watch('decimals + decimalSeparator', function (newVal, oldVal) {
-                ngModelCtrl.$render();
-            });
+            });         
         }
     }
 })
