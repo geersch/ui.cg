@@ -1,7 +1,7 @@
 /*
  * cg-ui
  * https://github.com/geersch/ui.cg
- * Version: 0.1.0-BETA - 2014-08-16
+ * Version: 0.1.0-BETA - 2014-08-30
  * License: MIT
  */
 angular.module("ui.cg", ["ui.cg.tpls", "ui.cg.focused","ui.cg.numberinput","ui.cg.timepicker"]);
@@ -445,29 +445,16 @@ angular.module('ui.cg.numberinput', [])
             ngModelCtrl.$parsers.unshift(sanitize);
             ngModelCtrl.$formatters.unshift(sanitize);
 
-            ngModelCtrl.$formatters.unshift(function (input) {
-                if (angular.isUndefined(input)) {
-                    return '';
-                }
-
+            ngModelCtrl.$render = function () {
                 var decimalSeparator = numberinputCtrl.getDecimalSeparator();
-                return String(input).replace('.', decimalSeparator);
-            });
-
-            function render() {
-                var modelValue = ngModelCtrl.$modelValue;
-                if (angular.isUndefined(modelValue) || isNaN(modelValue)) {
-                    return;
+                var viewValue = ngModelCtrl.$viewValue;
+                if (!ngModelCtrl.$focused && angular.isDefined(ngModelCtrl.$modelValue)) {
+                    var decimals = numberinputCtrl.getDecimals();
+                    viewValue = ngModelCtrl.$modelValue.toFixed(decimals);
+                    viewValue = viewValue.replace('.', decimalSeparator);
                 }
 
-                var decimalSeparator = numberinputCtrl.getDecimalSeparator();
-                var decimals = numberinputCtrl.getDecimals();
-
-                var viewValue = modelValue.toFixed(decimals).replace('.', decimalSeparator);
-                if (viewValue !== ngModelCtrl.$viewValue) {
-                    ngModelCtrl.$setViewValue(viewValue);
-                    ngModelCtrl.$render();
-                }
+                element.val(viewValue);
             }
 
             element.bind('blur', function () {
@@ -475,11 +462,11 @@ angular.module('ui.cg.numberinput', [])
                     numberinputCtrl.checkValueBoundaries();
                 });
 
-                render();
+                ngModelCtrl.$render();
             });
 
             scope.$watch('decimals + decimalSeparator', function (newVal, oldVal) {
-                render();
+                ngModelCtrl.$render();
             });
         }
     }
@@ -556,7 +543,7 @@ angular.module('ui.cg.timepicker', [])
 angular.module("template/numberinput/numberinput.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("template/numberinput/numberinput.html",
     "<div class=\"input-append\" focused>\n" +
-    "    <input type=\"text\" class=\"input-mini\" type=\"text\" ng-model=\"number\" float ng-disabled=\"disabled\">\n" +
+    "    <input type=\"text\" class=\"input-mini\" type=\"text\" ng-model=\"number\" float ng-disabled=\"disabled\" focused>\n" +
     "    <span class=\"btn-group\" ng-show=\"spinner\">\n" +
     "        <button class=\"btn\" type=\"button\" ng-click=\"increment()\" ng-disabled=\"disabled\">\n" +
     "            <i class=\"icon icon-chevron-up\"></i>\n" +
