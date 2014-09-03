@@ -42,3 +42,4 @@ Check the Grunt build file for other tasks that are defined for this project.
 - [x] numberinput -> keyboard events should be opt-out
 - [x] numberinput -> option to make it readonly
 - [ ] block-ui -> Integrate: http://run.plnkr.co/plunks/xNYghCU0Cn8F72KV1uE6/
+- [ ] timepicker -> http://plnkr.co/edit/Wt6LaPBklYpEjv6HmWxr?p=preview
