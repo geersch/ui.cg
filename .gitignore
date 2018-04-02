@@ -1,8 +1,6 @@
 .idea
 .grunt
 
-dist
-
 node_modules
 
 template/**/*.js
