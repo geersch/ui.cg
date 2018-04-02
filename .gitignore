@@ -1,6 +1,5 @@
 .idea
 .grunt
-
 node_modules
-
 template/**/*.js
+npm-debug.log
