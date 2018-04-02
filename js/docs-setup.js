@@ -9,8 +9,8 @@ NG_DOCS={
       "shortName": "Overview",
       "type": "overview",
       "moduleName": "Overview",
-      "shortDescription": "Input controls for your Angular apps, made easy",
-      "keywords": "add adipiscing aliquet amet angular angularjs api apps blandit bring build built cg clone configurable consectetur controls decimal decimals dependencies dictum dist dolor easiest easy easy-to-use elit enim erat eros faucibus fermentum feugiat find floating folder fringilla geers git grunt imperdiet input install ipsum javascript justo lorem module mymodule nec nisl nmp node npm nulla number numberinput org overview point porttitor quick quis quisque redistributables repository rutrum separator sit start tempus turpis ui ultrices uncompressed ut vel vestibulum vivamus",
+      "shortDescription": "cg.ui",
+      "keywords": "add angular angularjs api apps bootstrap build built cg clone control dependencies dist find folder geers git grunt input install javascript module mymodule nmp node npm number org overview quick redistributables repository start template ui uncompressed",
       "isDeprecated": false
     },
     {
