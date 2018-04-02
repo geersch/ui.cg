@@ -1,6 +1,6 @@
 # ui.cg
 
-A number input control for AngularJS apps.
+A number input control for AngularJS apps. Bootstrap 2.x is used for the template.
 
 ## API Reference
 

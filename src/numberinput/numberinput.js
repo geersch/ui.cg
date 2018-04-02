@@ -350,9 +350,6 @@ angular.module('ui.cg.numberinput', [])
             disabled: '=ngDisabled'
         },
         link: function (scope, element, attrs, ctrls) {
-
-
-
             var numberinputCtrl = ctrls[0];
             numberinputCtrl.init(element);
         }
