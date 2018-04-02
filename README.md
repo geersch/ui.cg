@@ -1,16 +1,12 @@
 # ui.cg
 
-Input controls for your Angular apps, made easy.
+A number input control for AngularJS apps.
 
 ## API Reference
 
 An API reference can be here:
 
 [http://geersch.github.io/ui.cg/#/api](http://geersch.github.io/ui.cg/#/api)
-
-## Controls
-
-* [numberinput](http://geersch.github.io/ui.cg/#/api/cg.ui.directive:numberinput)
 
 ## Development
 
