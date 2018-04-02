@@ -2,18 +2,9 @@
 @name Overview
 @description
 
-# Input controls for your Angular apps, made easy
+# cg.ui
 
-####The easiest way to bring easy-to-use input controls to your Angular apps!
-
-<br>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla nec dolor sit amet vestibulum.
-Nulla dictum aliquet turpis, quis porttitor erat tempus id. Vestibulum rutrum dolor nec eros blandit imperdiet quis ut
-nisl. Vivamus imperdiet imperdiet fermentum. Quisque vel faucibus enim, ultrices feugiat justo.
-
-## Controls
-
-- numberinput:  Input for a floating point number with a configurable decimal separator and decimals
+A number input control for AngularJS apps. Bootstrap 2.x is used for the template.
 
 ## Quick Start
 Clone the repository:
